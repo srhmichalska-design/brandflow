@@ -1,0 +1,1413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrandFlow — AI Marketing Content for Local Businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;0,900;1,300;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --coral: #FF5C3A;
+    --coral-light: #FF7A5C;
+    --navy: #0F1B2D;
+    --navy-mid: #1A2E45;
+    --cream: #FDF8F2;
+    --cream-dark: #F5EDE0;
+    --green: #2ECC71;
+    --text: #1A1A2E;
+    --muted: #6B7280;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--coral);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+    mix-blend-mode: multiply;
+  }
+  .cursor-follower {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--coral);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: transform 0.25s ease, opacity 0.2s;
+    opacity: 0.5;
+  }
+
+  /* Sale banner */
+  .sale-banner {
+    background: var(--navy);
+    color: white;
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .sale-banner span {
+    color: var(--coral);
+    font-weight: 700;
+  }
+  .sale-banner .code {
+    background: rgba(255,92,58,0.2);
+    border: 1px solid var(--coral);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 12px;
+    margin-left: 6px;
+  }
+
+  /* Nav */
+  nav {
+    position: sticky;
+    top: 0;
+    background: rgba(253,248,242,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    z-index: 100;
+    padding: 0 40px;
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--navy);
+    text-decoration: none;
+  }
+  .logo span { color: var(--coral); }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+    align-items: center;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; }
+  .nav-cta {
+    background: var(--coral);
+    color: white !important;
+    opacity: 1 !important;
+    padding: 10px 22px;
+    border-radius: 100px;
+    font-weight: 600 !important;
+    transition: background 0.2s, transform 0.2s !important;
+  }
+  .nav-cta:hover { background: #e04d30 !important; transform: translateY(-1px); }
+
+  /* Hero */
+  .hero {
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    padding: 80px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 60px;
+    position: relative;
+  }
+
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    animation: orbFloat 8s ease-in-out infinite;
+  }
+  .orb1 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(255,92,58,0.18) 0%, transparent 70%);
+    top: -100px; right: -100px;
+    animation-delay: 0s;
+  }
+  .orb2 {
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, rgba(15,27,45,0.12) 0%, transparent 70%);
+    bottom: 0; left: 100px;
+    animation-delay: 3s;
+  }
+  @keyframes orbFloat {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-30px) scale(1.05); }
+  }
+
+  .hero-left { flex: 1; position: relative; z-index: 1; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: white;
+    border: 1px solid rgba(255,92,58,0.2);
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--coral);
+    margin-bottom: 28px;
+    box-shadow: 0 2px 12px rgba(255,92,58,0.1);
+  }
+  .hero-badge .dot {
+    width: 6px; height: 6px;
+    background: var(--coral);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(42px, 5vw, 68px);
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--navy);
+    margin-bottom: 24px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--coral);
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 480px;
+    margin-bottom: 40px;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--coral);
+    color: white;
+    padding: 16px 32px;
+    border-radius: 100px;
+    font-size: 16px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    box-shadow: 0 8px 30px rgba(255,92,58,0.3);
+  }
+  .btn-primary:hover {
+    background: #e04d30;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(255,92,58,0.4);
+  }
+  .btn-secondary {
+    color: var(--navy);
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .btn-secondary:hover { opacity: 1; }
+
+  .hero-guarantee {
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hero-guarantee svg { color: var(--green); flex-shrink: 0; }
+
+  /* Hero right - mockup */
+  .hero-right {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+  }
+  .mockup-card {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+    box-shadow: 0 20px 80px rgba(15,27,45,0.12), 0 4px 20px rgba(0,0,0,0.04);
+    max-width: 420px;
+    margin-left: auto;
+    position: relative;
+  }
+  .mockup-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #F0F0F0;
+  }
+  .mockup-avatar {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--coral), #FF8C6B);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+  }
+  .mockup-biz-name { font-weight: 700; font-size: 14px; }
+  .mockup-platform {
+    margin-left: auto;
+    background: #F0F7FF;
+    color: #1877F2;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+  .mockup-content-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  .mockup-text {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  .mockup-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .mockup-tag {
+    background: var(--cream-dark);
+    color: var(--muted);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+  .mockup-actions {
+    display: flex;
+    gap: 8px;
+  }
+  .mockup-btn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+  }
+  .mockup-btn-primary { background: var(--coral); color: white; }
+  .mockup-btn-secondary { background: var(--cream-dark); color: var(--text); }
+
+  .floating-badge {
+    position: absolute;
+    background: white;
+    border-radius: 12px;
+    padding: 10px 14px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .fb1 { top: -20px; left: -30px; animation: floatBadge 4s ease-in-out infinite; }
+  .fb2 { bottom: 20px; right: -30px; animation: floatBadge 4s ease-in-out infinite 2s; }
+  @keyframes floatBadge {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    background: var(--navy);
+    padding: 32px 40px;
+  }
+  .stats-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    text-align: center;
+  }
+  .stat-item { color: white; }
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--coral);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label { font-size: 14px; opacity: 0.6; }
+
+  /* Section base */
+  section { padding: 100px 40px; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--coral);
+    margin-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--navy);
+    margin-bottom: 20px;
+  }
+  .section-sub {
+    font-size: 17px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 560px;
+  }
+
+  /* Integrations */
+  .integrations {
+    background: white;
+    padding: 40px;
+    text-align: center;
+  }
+  .integrations p {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 24px;
+  }
+  .integration-logos {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .int-logo {
+    padding: 12px 20px;
+    background: var(--cream);
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+  }
+  .int-logo:hover { background: var(--cream-dark); color: var(--navy); transform: translateY(-2px); }
+  .int-logo .emoji { font-size: 18px; }
+
+  /* How it works */
+  .how-it-works {
+    background: var(--navy);
+    color: white;
+  }
+  .how-it-works .section-title { color: white; }
+  .how-it-works .section-sub { color: rgba(255,255,255,0.6); }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    margin-top: 60px;
+  }
+  .step {
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+  }
+  .step.visible { opacity: 1; transform: translateY(0); }
+  .step-num {
+    font-family: 'Fraunces', serif;
+    font-size: 64px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.06);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .step-icon {
+    font-size: 32px;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .step h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: white;
+  }
+  .step p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.7; }
+  .step-connector {
+    position: absolute;
+    top: 80px;
+    right: -20px;
+    color: rgba(255,92,58,0.3);
+    font-size: 24px;
+  }
+
+  /* Features */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+  .feature-card {
+    background: white;
+    border-radius: 20px;
+    padding: 32px;
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  .feature-card.visible { opacity: 1; transform: translateY(0); }
+  .feature-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(15,27,45,0.1);
+    border-color: rgba(255,92,58,0.15);
+  }
+  .feature-icon {
+    width: 52px; height: 52px;
+    border-radius: 14px;
+    background: var(--cream-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  .feature-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+  .feature-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+  /* Platforms */
+  .platforms { background: var(--cream-dark); }
+  .platform-tabs {
+    display: flex;
+    gap: 8px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+  .platform-tab {
+    padding: 10px 20px;
+    border-radius: 100px;
+    border: 1.5px solid rgba(0,0,0,0.1);
+    background: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .platform-tab.active, .platform-tab:hover {
+    background: var(--coral);
+    color: white;
+    border-color: var(--coral);
+  }
+  .platform-preview {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.06);
+    display: none;
+  }
+  .platform-preview.active { display: block; }
+  .preview-sample {
+    background: var(--cream);
+    border-radius: 16px;
+    padding: 24px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text);
+    border-left: 3px solid var(--coral);
+  }
+  .preview-meta {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+  .preview-badge {
+    background: var(--cream-dark);
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  /* Pricing */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+    align-items: start;
+  }
+  .pricing-card {
+    background: white;
+    border-radius: 24px;
+    padding: 36px;
+    border: 1.5px solid rgba(0,0,0,0.06);
+    position: relative;
+    transition: all 0.3s;
+  }
+  .pricing-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
+  .pricing-card.featured {
+    background: var(--navy);
+    color: white;
+    border-color: transparent;
+    transform: scale(1.04);
+  }
+  .pricing-card.featured:hover { transform: scale(1.04) translateY(-4px); }
+  .popular-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--coral);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 14px;
+    border-radius: 100px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .plan-name {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--coral);
+    margin-bottom: 16px;
+  }
+  .plan-price {
+    font-family: 'Fraunces', serif;
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--navy);
+    margin-bottom: 6px;
+  }
+  .pricing-card.featured .plan-price { color: white; }
+  .plan-price sup { font-size: 24px; vertical-align: super; }
+  .plan-per { font-size: 13px; color: var(--muted); margin-bottom: 28px; }
+  .pricing-card.featured .plan-per { color: rgba(255,255,255,0.5); }
+  .plan-features { list-style: none; margin-bottom: 32px; }
+  .plan-features li {
+    font-size: 14px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text);
+  }
+  .pricing-card.featured .plan-features li { color: rgba(255,255,255,0.75); border-color: rgba(255,255,255,0.08); }
+  .plan-features li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+  .plan-btn {
+    display: block;
+    text-align: center;
+    padding: 14px;
+    border-radius: 100px;
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+  .plan-btn-outline {
+    border: 2px solid rgba(0,0,0,0.12);
+    color: var(--navy);
+  }
+  .plan-btn-outline:hover { border-color: var(--coral); color: var(--coral); }
+  .plan-btn-solid {
+    background: var(--coral);
+    color: white;
+    box-shadow: 0 8px 24px rgba(255,92,58,0.3);
+  }
+  .plan-btn-solid:hover { background: #e04d30; transform: translateY(-1px); }
+
+  /* Testimonials */
+  .testimonials { background: var(--cream-dark); }
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+  .testimonial {
+    background: white;
+    border-radius: 20px;
+    padding: 28px;
+    border: 1px solid rgba(0,0,0,0.05);
+    transition: all 0.3s;
+  }
+  .testimonial:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.06); }
+  .stars { color: #F59E0B; font-size: 16px; margin-bottom: 16px; letter-spacing: 2px; }
+  .testimonial-text { font-size: 15px; line-height: 1.7; color: var(--text); margin-bottom: 20px; font-style: italic; }
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .author-avatar {
+    width: 42px; height: 42px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+  }
+  .author-name { font-weight: 700; font-size: 14px; }
+  .author-biz { font-size: 12px; color: var(--muted); }
+
+  /* FAQ */
+  .faq { background: white; }
+  .faq-list { max-width: 700px; margin: 60px auto 0; }
+  .faq-item {
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    padding: 24px 0;
+  }
+  .faq-q {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--navy);
+    gap: 16px;
+  }
+  .faq-icon {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--cream-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 18px;
+    transition: all 0.2s;
+    font-weight: 300;
+  }
+  .faq-item.open .faq-icon { background: var(--coral); color: white; transform: rotate(45deg); }
+  .faq-a {
+    font-size: 15px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+  }
+  .faq-item.open .faq-a { max-height: 300px; padding-top: 16px; }
+
+  /* CTA */
+  .cta-section {
+    background: var(--navy);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(255,92,58,0.2) 0%, transparent 60%);
+  }
+  .cta-section .section-title { color: white; position: relative; z-index: 1; }
+  .cta-section .section-sub { color: rgba(255,255,255,0.6); margin: 0 auto 40px; position: relative; z-index: 1; }
+  .cta-section .btn-primary { position: relative; z-index: 1; }
+
+  /* Footer */
+  footer {
+    background: #080E18;
+    color: white;
+    padding: 60px 40px 30px;
+  }
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 60px;
+  }
+  .footer-logo {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 16px;
+  }
+  .footer-logo span { color: var(--coral); }
+  .footer-desc { font-size: 14px; color: rgba(255,255,255,0.4); line-height: 1.7; max-width: 280px; }
+  .footer-col h4 {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 16px;
+  }
+  .footer-col a {
+    display: block;
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 10px;
+    transition: color 0.2s;
+  }
+  .footer-col a:hover { color: white; }
+  .footer-bottom {
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding-top: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* Scroll animations */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero { flex-direction: column; padding: 50px 20px; gap: 40px; }
+    .hero-right { display: none; }
+    section { padding: 60px 20px; }
+    .stats-inner { grid-template-columns: repeat(2, 1fr); }
+    .steps { grid-template-columns: 1fr; }
+    .step-connector { display: none; }
+    .features-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .pricing-card.featured { transform: none; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .integrations { padding: 40px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+
+<!-- Sale Banner -->
+<div class="sale-banner">
+  🎉 Launch offer — 50% off for the first 3 months. Use code <span class="code">BRANDFLOW50</span> at checkout.
+</div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">Brand<span>Flow</span></a>
+    <ul class="nav-links">
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="#" class="nav-cta">Get started →</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div style="max-width:1200px;margin:0 auto;padding:0 40px;">
+  <div class="hero">
+    <div class="hero-orb orb1"></div>
+    <div class="hero-orb orb2"></div>
+
+    <div class="hero-left">
+      <div class="hero-badge"><span class="dot"></span> AI-powered for local businesses</div>
+      <h1>Your marketing,<br>on <em>autopilot.</em></h1>
+      <p class="hero-sub">BrandFlow learns your brand in 60 seconds, then writes your Facebook ads, Instagram posts, emails, and more — every single day.</p>
+      <div class="hero-actions">
+        <a href="#" class="btn-primary">Start generating content →</a>
+        <a href="#how" class="btn-secondary">See how it works ↓</a>
+      </div>
+      <p class="hero-guarantee">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        14-day money-back guarantee — no questions asked
+      </p>
+    </div>
+
+    <div class="hero-right">
+      <div class="floating-badge fb1">✨ Brand DNA built in 60s</div>
+      <div class="mockup-card">
+        <div class="mockup-header">
+          <div class="mockup-avatar">☕</div>
+          <div>
+            <div class="mockup-biz-name">The Corner Café</div>
+            <div style="font-size:11px;color:var(--muted);">Melbourne, VIC</div>
+          </div>
+          <div class="mockup-platform">Facebook Ad</div>
+        </div>
+        <div class="mockup-content-label">Generated content</div>
+        <div class="mockup-text" id="mockupText">
+          "Your morning ritual just got an upgrade ☕ Hand-roasted beans, cosy booths, and the city's best flat white — steps from your door. First coffee's on us this week only."
+        </div>
+        <div class="mockup-tags">
+          <div class="mockup-tag">#MelbourneCafe</div>
+          <div class="mockup-tag">#CoffeeLover</div>
+          <div class="mockup-tag">#LocalBusiness</div>
+        </div>
+        <div class="mockup-actions">
+          <button class="mockup-btn mockup-btn-primary" onclick="generateNext()">Generate next ✨</button>
+          <button class="mockup-btn mockup-btn-secondary">Copy</button>
+        </div>
+      </div>
+      <div class="floating-badge fb2">📈 3 variations per platform</div>
+    </div>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-num">4,200+</div>
+      <div class="stat-label">Local businesses using BrandFlow</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">850k</div>
+      <div class="stat-label">Content pieces generated</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">6</div>
+      <div class="stat-label">Platforms supported</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">4.9★</div>
+      <div class="stat-label">Average customer rating</div>
+    </div>
+  </div>
+</div>
+
+<!-- Integrations -->
+<div class="integrations">
+  <p>Works with all your favourite platforms</p>
+  <div class="integration-logos">
+    <div class="int-logo"><span class="emoji">📘</span> Facebook</div>
+    <div class="int-logo"><span class="emoji">📸</span> Instagram</div>
+    <div class="int-logo"><span class="emoji">📧</span> Mailchimp</div>
+    <div class="int-logo"><span class="emoji">💼</span> LinkedIn</div>
+    <div class="int-logo"><span class="emoji">🐦</span> Twitter / X</div>
+    <div class="int-logo"><span class="emoji">🎵</span> TikTok</div>
+    <div class="int-logo"><span class="emoji">📬</span> Klaviyo</div>
+  </div>
+</div>
+
+<!-- How it works -->
+<section class="how-it-works" id="how">
+  <div class="section-inner">
+    <div class="section-label">How it works</div>
+    <div class="section-title">From zero to content<br>in under 2 minutes</div>
+    <p class="section-sub">No marketing degree. No design skills. No guesswork. Just answers that flow.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <span class="step-icon">🧠</span>
+        <h3>Tell us about your business</h3>
+        <p>Answer 5 quick questions — what you do, who your customers are, and what makes you different. BrandFlow builds your Brand DNA instantly.</p>
+        <div class="step-connector">→</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <span class="step-icon">⚡</span>
+        <h3>AI generates your content</h3>
+        <p>Our AI writes 2–3 variations for every platform — Facebook, Instagram, email, LinkedIn, TikTok, and more. All in your brand's voice.</p>
+        <div class="step-connector">→</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <span class="step-icon">✏️</span>
+        <h3>Tweak if you want to</h3>
+        <p>Like what you see? Copy it. Want to change something? Edit it in seconds. You're always in control — we just do the heavy lifting.</p>
+        <div class="step-connector">→</div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <span class="step-icon">🚀</span>
+        <h3>Post and watch results roll in</h3>
+        <p>Copy directly to your favourite platform or download your content pack. New content waiting for you every single day.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section id="features">
+  <div class="section-inner">
+    <div class="section-label">Features</div>
+    <div class="section-title fade-up">Everything you need,<br>nothing you don't</div>
+    <p class="section-sub fade-up">Built specifically for local businesses who don't have time to be marketing experts.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🧬</div>
+        <h3>Brand DNA</h3>
+        <p>BrandFlow learns your tone, your audience, and your offers — then writes content that actually sounds like you, not a robot.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔄</div>
+        <h3>2–3 variations per platform</h3>
+        <p>Never run out of ideas. Get multiple content options for every platform so you can pick what feels right and post with confidence.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">#️⃣</div>
+        <h3>Hashtag suggestions</h3>
+        <p>Relevant, researched hashtags generated automatically for every post — local, niche, and trending tags included.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📏</div>
+        <h3>Character count warnings</h3>
+        <p>Never accidentally exceed platform limits. BrandFlow keeps every post within the optimal length for each platform automatically.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>Strong CTAs built in</h3>
+        <p>Every piece of content comes with a tailored call-to-action — from "Book now" to "DM us today" — matched to your offer.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌏</div>
+        <h3>99+ languages</h3>
+        <p>Serve diverse local communities by generating content in over 99 languages — perfect for multicultural neighbourhoods.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📥</div>
+        <h3>Download & export</h3>
+        <p>Get a clean content pack with all your copy, hashtags, and CTAs ready to go — downloadable as a document in seconds.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Local-first content angles</h3>
+        <p>Content written for your suburb, your city, your community. Not generic brand-speak — real local marketing that connects.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Your data, always private</h3>
+        <p>Your brand information is never shared, never sold, never used to train AI models. It stays yours, full stop.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Platforms -->
+<section class="platforms">
+  <div class="section-inner">
+    <div class="section-label">Platforms</div>
+    <div class="section-title fade-up">Content for every platform,<br>every time</div>
+    <div class="platform-tabs">
+      <button class="platform-tab active" onclick="switchPlatform('fb', this)">📘 Facebook Ads</button>
+      <button class="platform-tab" onclick="switchPlatform('ig', this)">📸 Instagram</button>
+      <button class="platform-tab" onclick="switchPlatform('email', this)">📧 Email</button>
+      <button class="platform-tab" onclick="switchPlatform('li', this)">💼 LinkedIn</button>
+      <button class="platform-tab" onclick="switchPlatform('tw', this)">🐦 Twitter / X</button>
+      <button class="platform-tab" onclick="switchPlatform('tiktok', this)">🎵 TikTok</button>
+    </div>
+
+    <div class="platform-preview active" id="fb">
+      <div class="preview-sample">"Winter got you craving something warm? 🔥 Our slow-cooked pies are back — made fresh daily with local ingredients and zero shortcuts. Pop in before 2pm and get a free soup with any pie order. Because you deserve a proper lunch."</div>
+      <div class="preview-meta">
+        <div class="preview-badge">📏 142 chars (optimal)</div>
+        <div class="preview-badge">🎯 CTA: Visit today</div>
+        <div class="preview-badge">#️⃣ 3 hashtags generated</div>
+        <div class="preview-badge">✨ 2 more variations available</div>
+      </div>
+    </div>
+    <div class="platform-preview" id="ig">
+      <div class="preview-sample">✨ Sunday energy = soft lighting + a table by the window + our seasonal mushroom toast 🍄<br><br>No plans needed. Just walk in, sit down, and let us take care of the rest.<br><br>📍 Corner of Smith & High St | Open from 7:30am</div>
+      <div class="preview-meta">
+        <div class="preview-badge">📏 Perfect caption length</div>
+        <div class="preview-badge">🎯 CTA: Walk in</div>
+        <div class="preview-badge">#️⃣ 8 hashtags generated</div>
+        <div class="preview-badge">✨ 2 more variations available</div>
+      </div>
+    </div>
+    <div class="platform-preview" id="email">
+      <div class="preview-sample"><strong>Subject: Your table's waiting, [First Name] 🍽️</strong><br><br>We've been busy in the kitchen — and we think you're going to love what we've been working on. Our new autumn menu drops this Saturday, and we're giving loyal customers like you first dibs on a reservation. Click below to book your spot before we open it up to everyone else.</div>
+      <div class="preview-meta">
+        <div class="preview-badge">📧 Subject line included</div>
+        <div class="preview-badge">🎯 CTA: Book now</div>
+        <div class="preview-badge">✨ 2 more variations available</div>
+      </div>
+    </div>
+    <div class="platform-preview" id="li">
+      <div class="preview-sample">After 12 years running a small business in Melbourne, here's the one thing no one tells you: your best marketing isn't your ads. It's the regulars who tell their friends.<br><br>We've been focusing on community over campaigns — and our bookings have never been stronger. Sometimes old-school works.</div>
+      <div class="preview-meta">
+        <div class="preview-badge">💼 Professional tone</div>
+        <div class="preview-badge">🎯 Thought leadership angle</div>
+        <div class="preview-badge">✨ 2 more variations available</div>
+      </div>
+    </div>
+    <div class="platform-preview" id="tw">
+      <div class="preview-sample">Our weekend special sold out in 3 hours last week 😅<br><br>This Saturday we're making double the batch. Don't say we didn't warn you. 👀<br><br>Doors open at 8am →</div>
+      <div class="preview-meta">
+        <div class="preview-badge">📏 220 chars</div>
+        <div class="preview-badge">🎯 CTA: Come early</div>
+        <div class="preview-badge">✨ 2 more variations available</div>
+      </div>
+    </div>
+    <div class="platform-preview" id="tiktok">
+      <div class="preview-sample">POV: You just found the best hidden café in [your suburb] ☕<br><br>No queue. No attitude. Just really, really good coffee and a window seat with your name on it. We're open from 7am — see you there 👋<br><br>#HiddenGem #CaféTok #MelbourneEats</div>
+      <div class="preview-meta">
+        <div class="preview-badge">🎵 TikTok-native format</div>
+        <div class="preview-badge">🎯 Relatable POV angle</div>
+        <div class="preview-badge">#️⃣ Trending hashtags</div>
+        <div class="preview-badge">✨ 2 more variations available</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing">
+  <div class="section-inner">
+    <div class="section-label">Pricing</div>
+    <div class="section-title fade-up" style="text-align:center;">Simple, honest pricing</div>
+    <p class="section-sub fade-up" style="text-align:center;margin:0 auto 20px;">No hidden fees. No surprise charges. Cancel anytime.<br>All plans come with a 14-day money-back guarantee.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price"><sup>$</sup>19</div>
+        <div class="plan-per">per month, billed monthly</div>
+        <ul class="plan-features">
+          <li>1 brand profile</li>
+          <li>50 content generations/month</li>
+          <li>Facebook, Instagram, Email</li>
+          <li>2 variations per platform</li>
+          <li>Hashtag suggestions</li>
+          <li>Character count warnings</li>
+          <li>Email support</li>
+        </ul>
+        <a href="#" class="plan-btn plan-btn-outline">Get started →</a>
+      </div>
+
+      <div class="pricing-card featured">
+        <div class="popular-badge">Most Popular</div>
+        <div class="plan-name">Growth</div>
+        <div class="plan-price"><sup>$</sup>39</div>
+        <div class="plan-per" style="color:rgba(255,255,255,0.5)">per month, billed monthly</div>
+        <ul class="plan-features">
+          <li>2 brand profiles</li>
+          <li>Unlimited generations</li>
+          <li>All 6 platforms</li>
+          <li>3 variations per platform</li>
+          <li>Hashtag suggestions</li>
+          <li>CTA recommendations</li>
+          <li>Download content packs</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="#" class="plan-btn plan-btn-solid">Get started →</a>
+      </div>
+
+      <div class="pricing-card">
+        <div class="plan-name">Agency</div>
+        <div class="plan-price"><sup>$</sup>79</div>
+        <div class="plan-per">per month, billed monthly</div>
+        <ul class="plan-features">
+          <li>Up to 5 brand profiles</li>
+          <li>Unlimited generations</li>
+          <li>All 6 platforms</li>
+          <li>3 variations per platform</li>
+          <li>White-label exports</li>
+          <li>Client-ready content packs</li>
+          <li>99+ languages</li>
+          <li>Dedicated account manager</li>
+        </ul>
+        <a href="#" class="plan-btn plan-btn-outline">Get started →</a>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:28px;font-size:14px;color:var(--muted);">🔒 Secure checkout via Stripe · 14-day money-back guarantee · Cancel anytime</p>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials">
+  <div class="section-inner">
+    <div class="section-label">Customer stories</div>
+    <div class="section-title fade-up">Local businesses love BrandFlow</div>
+    <div class="testimonials-grid">
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <div class="testimonial-text">"I used to spend Sunday nights stressing about what to post that week. Now I open BrandFlow, generate a week of content in 10 minutes, and actually enjoy my weekends. Game changer."</div>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#FF5C3A,#FF8C6B)">S</div>
+          <div>
+            <div class="author-name">Sarah K.</div>
+            <div class="author-biz">Skin & Soul Studio · Fitzroy, VIC</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <div class="testimonial-text">"I'm not a writer. I'm a plumber. But my Facebook page now looks like it's run by a proper marketing team. My enquiries have doubled since I started using this. I'm not joking."</div>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#0F1B2D,#1A2E45)">D</div>
+          <div>
+            <div class="author-name">Dave M.</div>
+            <div class="author-biz">M&L Plumbing · Penrith, NSW</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="stars">★★★★★</div>
+        <div class="testimonial-text">"As a restaurant owner I'm flat out 12 hours a day. BrandFlow is the only tool I've found that actually understands local marketing — not just generic stuff. The content sounds like me, not a chatbot."</div>
+        <div class="testimonial-author">
+          <div class="author-avatar" style="background:linear-gradient(135deg,#2ECC71,#1A9B55)">A</div>
+          <div>
+            <div class="author-name">Ana T.</div>
+            <div class="author-biz">Casa Bonita Restaurant · Fortitude Valley, QLD</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="section-inner" style="text-align:center;">
+    <div class="section-label">FAQ</div>
+    <div class="section-title fade-up">Got questions?</div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Do I need marketing experience to use BrandFlow?
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">Not at all. BrandFlow is designed for business owners, not marketers. If you can answer a few questions about your business, BrandFlow does everything else — writing, formatting, hashtags, and CTAs included.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How does BrandFlow learn my brand voice?
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">During onboarding you answer 5 questions about your business — what you do, who your customers are, your tone of voice, and what makes you different. BrandFlow uses this to build your Brand DNA, which it references every time it generates content for you.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Is there a free trial?
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">We don't offer a free trial, but every plan comes with a 14-day money-back guarantee — no questions asked. If you're not happy for any reason within the first 14 days, we'll refund you in full.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          What platforms does BrandFlow generate content for?
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">BrandFlow generates content for Facebook Ads, Instagram, Email campaigns, LinkedIn, Twitter/X, and TikTok. The Growth and Agency plans include all six platforms. The Starter plan covers Facebook, Instagram, and Email.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Can I cancel at any time?
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">Absolutely. There are no contracts and no lock-ins. You can cancel your subscription at any time from your account settings, and you won't be charged again from your next billing cycle.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Is my business information private and secure?
+          <div class="faq-icon">+</div>
+        </div>
+        <div class="faq-a">Yes. Your brand data is never shared, sold, or used to train AI models. It's stored securely and only used to generate your own content. We take privacy seriously.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="section-inner">
+    <div class="section-title">Stop staring at a blank screen.<br>Start flowing.</div>
+    <p class="section-sub">Join 4,200+ local businesses generating content that actually connects — in minutes, not hours.</p>
+    <a href="#" class="btn-primary" style="font-size:18px;padding:20px 44px;">Start today — risk free →</a>
+    <p style="margin-top:16px;font-size:14px;color:rgba(255,255,255,0.4);position:relative;z-index:1;">14-day money-back guarantee · No questions asked · Cancel anytime</p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-logo">Brand<span>Flow</span></div>
+        <p class="footer-desc">AI-powered marketing content for local businesses. Built to work while you sleep.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Product</h4>
+        <a href="#">How it works</a>
+        <a href="#">Features</a>
+        <a href="#">Pricing</a>
+        <a href="#">Changelog</a>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <a href="#">About</a>
+        <a href="#">Blog</a>
+        <a href="#">Affiliates</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Refund Policy</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 BrandFlow. All rights reserved.</span>
+      <span>Made for local businesses everywhere 🇦🇺</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const follower = document.getElementById('cursorFollower');
+  let mouseX = 0, mouseY = 0, followerX = 0, followerY = 0;
+  document.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    cursor.style.transform = `translate(${mouseX - 6}px, ${mouseY - 6}px)`;
+  });
+  function animateFollower() {
+    followerX += (mouseX - followerX) * 0.12;
+    followerY += (mouseY - followerY) * 0.12;
+    follower.style.transform = `translate(${followerX - 18}px, ${followerY - 18}px)`;
+    requestAnimationFrame(animateFollower);
+  }
+  animateFollower();
+
+  // Mockup carousel
+  const mockupTexts = [
+    '"Your morning ritual just got an upgrade ☕ Hand-roasted beans, cosy booths, and the city\'s best flat white — steps from your door. First coffee\'s on us this week only."',
+    '"New arrivals just dropped 🎉 Fresh stock of our bestselling styles — because you shouldn\'t have to travel to the city to shop well. Come in this weekend and see what\'s new."',
+    '"Real talk: our regulars book 3 weeks in advance 💇‍♀️ That\'s how good our team is. We\'ve just opened up a few last-minute slots for next week — grab yours before they\'re gone."',
+  ];
+  let mockupIdx = 0;
+  function generateNext() {
+    mockupIdx = (mockupIdx + 1) % mockupTexts.length;
+    const el = document.getElementById('mockupText');
+    el.style.opacity = 0;
+    setTimeout(() => { el.textContent = mockupTexts[mockupIdx]; el.style.opacity = 1; }, 200);
+    el.style.transition = 'opacity 0.2s';
+  }
+
+  // Platform switcher
+  function switchPlatform(id, btn) {
+    document.querySelectorAll('.platform-preview').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.platform-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // FAQ
+  function toggleFaq(el) {
+    const item = el.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  // Scroll animations
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.15 });
+  document.querySelectorAll('.fade-up, .step, .feature-card').forEach(el => observer.observe(el));
+
+  // Stagger steps
+  document.querySelectorAll('.step').forEach((s, i) => {
+    s.style.transitionDelay = `${i * 0.1}s`;
+  });
+  document.querySelectorAll('.feature-card').forEach((c, i) => {
+    c.style.transitionDelay = `${i * 0.07}s`;
+  });
+</script>
+</body>
+</html>
