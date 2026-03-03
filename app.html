@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrandFlow — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --coral: #FF5C3A;
+  --navy: #0F1B2D;
+  --navy-mid: #1A2E45;
+  --cream: #FDF8F2;
+  --cream-dark: #F5EDE0;
+  --green: #2ECC71;
+  --text: #1A1A2E;
+  --muted: #6B7280;
+  --sidebar-w: 260px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; }
+
+/* ── AUTH SCREEN ── */
+#authScreen {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.auth-left {
+  background: var(--navy);
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+.auth-left::before {
+  content: '';
+  position: absolute;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(255,92,58,0.2) 0%, transparent 65%);
+  top: -100px; right: -100px;
+  pointer-events: none;
+}
+.auth-logo { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 700; color: white; }
+.auth-logo span { color: var(--coral); }
+.auth-tagline { position: relative; z-index: 1; }
+.auth-tagline h2 { font-family: 'Fraunces', serif; font-size: 42px; font-weight: 700; color: white; line-height: 1.2; margin-bottom: 20px; }
+.auth-tagline h2 em { color: var(--coral); font-style: italic; }
+.auth-tagline p { color: rgba(255,255,255,0.55); font-size: 16px; line-height: 1.7; }
+.auth-testimonial {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 24px;
+  position: relative; z-index: 1;
+}
+.auth-testimonial p { color: rgba(255,255,255,0.8); font-size: 14px; line-height: 1.7; font-style: italic; margin-bottom: 12px; }
+.auth-testimonial-author { font-size: 13px; color: rgba(255,255,255,0.4); font-weight: 600; }
+
+.auth-right {
+  background: var(--cream);
+  padding: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.auth-box { width: 100%; max-width: 400px; }
+.auth-box h3 { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.auth-box p { color: var(--muted); font-size: 15px; margin-bottom: 32px; }
+.auth-tabs { display: flex; gap: 4px; background: var(--cream-dark); border-radius: 12px; padding: 4px; margin-bottom: 28px; }
+.auth-tab { flex: 1; padding: 10px; border-radius: 8px; border: none; background: none; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; color: var(--muted); }
+.auth-tab.active { background: white; color: var(--navy); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+.form-group input {
+  width: 100%; padding: 13px 16px;
+  border: 1.5px solid rgba(0,0,0,0.1);
+  border-radius: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px;
+  background: white;
+  transition: border-color 0.2s;
+  outline: none;
+}
+.form-group input:focus { border-color: var(--coral); }
+.btn-auth {
+  width: 100%; padding: 14px;
+  background: var(--coral); color: white;
+  border: none; border-radius: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 15px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s;
+  margin-top: 8px;
+}
+.btn-auth:hover { background: #e04d30; transform: translateY(-1px); }
+.btn-google {
+  width: 100%; padding: 13px;
+  background: white; color: var(--text);
+  border: 1.5px solid rgba(0,0,0,0.1);
+  border-radius: 12px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-bottom: 16px;
+}
+.btn-google:hover { border-color: var(--coral); }
+.auth-divider { text-align: center; color: var(--muted); font-size: 13px; margin: 16px 0; position: relative; }
+.auth-divider::before, .auth-divider::after { content: ''; position: absolute; top: 50%; width: 42%; height: 1px; background: rgba(0,0,0,0.1); }
+.auth-divider::before { left: 0; }
+.auth-divider::after { right: 0; }
+.auth-guarantee { text-align: center; font-size: 12px; color: var(--muted); margin-top: 20px; }
+.auth-error { background: #FEE2E2; border: 1px solid #FCA5A5; color: #DC2626; padding: 10px 14px; border-radius: 10px; font-size: 13px; margin-bottom: 16px; display: none; }
+.auth-success { background: #D1FAE5; border: 1px solid #6EE7B7; color: #065F46; padding: 10px 14px; border-radius: 10px; font-size: 13px; margin-bottom: 16px; display: none; }
+
+/* ── ONBOARDING ── */
+#onboardingScreen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  display: none;
+}
+.onboarding-box {
+  background: white;
+  border-radius: 24px;
+  padding: 48px;
+  width: 100%;
+  max-width: 560px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+}
+.ob-progress { display: flex; gap: 6px; margin-bottom: 36px; }
+.ob-step-dot { flex: 1; height: 4px; border-radius: 2px; background: var(--cream-dark); transition: background 0.3s; }
+.ob-step-dot.active { background: var(--coral); }
+.ob-step-dot.done { background: var(--green); }
+.ob-step { display: none; }
+.ob-step.active { display: block; }
+.ob-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--coral); margin-bottom: 8px; }
+.ob-title { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.ob-sub { font-size: 15px; color: var(--muted); margin-bottom: 28px; line-height: 1.6; }
+.ob-input { width: 100%; padding: 14px 16px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; outline: none; transition: border-color 0.2s; margin-bottom: 12px; }
+.ob-input:focus { border-color: var(--coral); }
+.ob-textarea { width: 100%; padding: 14px 16px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; outline: none; transition: border-color 0.2s; resize: vertical; min-height: 100px; margin-bottom: 12px; }
+.ob-textarea:focus { border-color: var(--coral); }
+.tone-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+.tone-btn { padding: 12px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 12px; background: white; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center; }
+.tone-btn:hover, .tone-btn.selected { border-color: var(--coral); background: rgba(255,92,58,0.05); color: var(--coral); }
+.platform-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+.platform-btn { padding: 12px 16px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 12px; background: white; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+.platform-btn:hover, .platform-btn.selected { border-color: var(--coral); background: rgba(255,92,58,0.05); color: var(--coral); }
+.ob-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
+.btn-ob-next { background: var(--coral); color: white; border: none; padding: 14px 32px; border-radius: 100px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.btn-ob-next:hover { background: #e04d30; transform: translateY(-1px); }
+.btn-ob-back { background: none; border: none; color: var(--muted); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; cursor: pointer; }
+
+/* Building DNA loading */
+#dnaLoading { display: none; text-align: center; padding: 40px 0; }
+.dna-spinner { width: 60px; height: 60px; border: 3px solid var(--cream-dark); border-top-color: var(--coral); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.dna-title { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.dna-sub { color: var(--muted); font-size: 14px; }
+
+/* ── MAIN APP ── */
+#appScreen { display: none; min-height: 100vh; }
+.app-layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  padding: 28px 20px;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  z-index: 50;
+}
+.sidebar-logo { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 700; color: white; margin-bottom: 36px; padding: 0 8px; }
+.sidebar-logo span { color: var(--coral); }
+.sidebar-nav { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border-radius: 10px; color: rgba(255,255,255,0.5); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; text-decoration: none; border: none; background: none; font-family: 'Plus Jakarta Sans', sans-serif; width: 100%; text-align: left; }
+.nav-item:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.8); }
+.nav-item.active { background: rgba(255,92,58,0.15); color: var(--coral); }
+.nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
+.sidebar-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 16px; margin-top: 16px; }
+.sidebar-plan { background: rgba(255,255,255,0.05); border-radius: 10px; padding: 12px; margin-bottom: 12px; }
+.sidebar-plan-label { font-size: 11px; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4px; }
+.sidebar-plan-name { font-size: 14px; font-weight: 700; color: white; }
+.btn-signout { width: 100%; padding: 10px; background: none; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: rgba(255,255,255,0.4); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.2s; }
+.btn-signout:hover { border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.7); }
+
+/* Main content */
+.main-content { margin-left: var(--sidebar-w); flex: 1; padding: 40px; max-width: calc(100vw - var(--sidebar-w)); }
+.topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; }
+.topbar-greeting h2 { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 700; color: var(--navy); }
+.topbar-greeting p { color: var(--muted); font-size: 14px; margin-top: 4px; }
+.topbar-biz { background: white; border: 1px solid rgba(0,0,0,0.06); border-radius: 12px; padding: 10px 16px; display: flex; align-items: center; gap: 10px; }
+.topbar-biz-avatar { width: 32px; height: 32px; background: linear-gradient(135deg, var(--coral), #FF8C6B); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.topbar-biz-name { font-size: 13px; font-weight: 700; color: var(--navy); }
+
+/* Generate panel */
+.generate-panel {
+  background: white;
+  border-radius: 20px;
+  padding: 28px;
+  margin-bottom: 32px;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+.generate-panel h3 { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+.generate-panel p { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+.generate-row { display: flex; gap: 12px; align-items: flex-start; }
+.generate-input { flex: 1; padding: 13px 16px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; outline: none; transition: border-color 0.2s; }
+.generate-input:focus { border-color: var(--coral); }
+.btn-generate { background: var(--coral); color: white; border: none; padding: 13px 28px; border-radius: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+.btn-generate:hover { background: #e04d30; }
+.btn-generate:disabled { background: var(--muted); cursor: not-allowed; }
+.platform-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+.platform-pill { padding: 6px 14px; border-radius: 100px; border: 1.5px solid rgba(0,0,0,0.1); background: white; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.platform-pill.active { background: var(--navy); color: white; border-color: var(--navy); }
+
+/* Content feed */
+.feed-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.feed-header h3 { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; color: var(--navy); }
+.feed-tabs { display: flex; gap: 4px; background: var(--cream-dark); border-radius: 10px; padding: 3px; }
+.feed-tab { padding: 7px 16px; border-radius: 7px; border: none; background: none; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--muted); transition: all 0.2s; }
+.feed-tab.active { background: white; color: var(--navy); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+
+/* Content cards */
+.content-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.content-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid rgba(0,0,0,0.05);
+  transition: all 0.2s;
+}
+.content-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.06); transform: translateY(-2px); }
+.card-platform { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
+.card-platform-badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; }
+.card-platform-badge.facebook { background: #E7F0FF; color: #1877F2; }
+.card-platform-badge.instagram { background: #FFF0F5; color: #E1306C; }
+.card-platform-badge.email { background: #F0FFF4; color: #2ECC71; }
+.card-platform-badge.linkedin { background: #E8F4FC; color: #0A66C2; }
+.card-platform-badge.twitter { background: #F0F9FF; color: #1DA1F2; }
+.card-platform-badge.tiktok { background: #FFF0F0; color: #FF0050; }
+.card-variation { font-size: 11px; color: var(--muted); font-weight: 500; margin-left: auto; }
+.card-text { font-size: 14px; line-height: 1.7; color: var(--text); margin-bottom: 14px; }
+.card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.card-tag { background: var(--cream-dark); color: var(--muted); font-size: 11px; padding: 3px 8px; border-radius: 6px; }
+.card-cta { font-size: 12px; color: var(--coral); font-weight: 600; margin-bottom: 16px; }
+.card-char { font-size: 11px; color: var(--muted); margin-bottom: 14px; }
+.card-char.warning { color: #F59E0B; }
+.card-actions { display: flex; gap: 8px; }
+.btn-card { flex: 1; padding: 9px; border-radius: 8px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; }
+.btn-card-copy { background: var(--coral); color: white; }
+.btn-card-copy:hover { background: #e04d30; }
+.btn-card-save { background: var(--cream-dark); color: var(--text); }
+.btn-card-save:hover { background: #e8dfd0; }
+.btn-card-saved { background: var(--green); color: white; }
+
+/* Skeleton cards */
+.skeleton-card { background: white; border-radius: 16px; padding: 24px; border: 1px solid rgba(0,0,0,0.05); }
+.skeleton-line { height: 12px; background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 6px; margin-bottom: 10px; }
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.skeleton-line.short { width: 40%; }
+.skeleton-line.medium { width: 70%; }
+
+/* Empty state */
+.empty-state { text-align: center; padding: 60px 20px; }
+.empty-icon { font-size: 48px; margin-bottom: 16px; }
+.empty-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.empty-sub { color: var(--muted); font-size: 14px; }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 30px; right: 30px;
+  background: var(--navy); color: white;
+  padding: 14px 20px; border-radius: 12px;
+  font-size: 14px; font-weight: 500;
+  transform: translateY(100px); opacity: 0;
+  transition: all 0.3s;
+  z-index: 1000;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* Screens */
+.screen { display: none; }
+.screen.active { display: block; }
+
+@media (max-width: 768px) {
+  #authScreen { grid-template-columns: 1fr; }
+  .auth-left { display: none; }
+  .content-grid { grid-template-columns: 1fr; }
+  .sidebar { transform: translateX(-100%); }
+  .main-content { margin-left: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- AUTH SCREEN -->
+<div id="authScreen">
+  <div class="auth-left">
+    <div class="auth-logo">Brand<span>Flow</span></div>
+    <div class="auth-tagline">
+      <h2>Your marketing,<br>on <em>autopilot.</em></h2>
+      <p>BrandFlow learns your brand and writes your Facebook ads, Instagram posts, emails, and more — every single day.</p>
+    </div>
+    <div class="auth-testimonial">
+      <p>"I used to spend Sunday nights stressing about what to post. Now I open BrandFlow, generate a week of content in 10 minutes, and actually enjoy my weekends."</p>
+      <div class="auth-testimonial-author">Sarah K. · Skin & Soul Studio, Melbourne</div>
+    </div>
+  </div>
+  <div class="auth-right">
+    <div class="auth-box">
+      <h3>Welcome to BrandFlow</h3>
+      <p>Sign in or create your account below</p>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchAuthTab('login')">Sign in</button>
+        <button class="auth-tab" onclick="switchAuthTab('signup')">Create account</button>
+      </div>
+
+      <div id="authError" class="auth-error"></div>
+      <div id="authSuccess" class="auth-success"></div>
+
+      <button class="btn-google" onclick="signInWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Continue with Google
+      </button>
+
+      <div class="auth-divider">or</div>
+
+      <!-- Login form -->
+      <div id="loginForm">
+        <div class="form-group">
+          <label>Email address</label>
+          <input type="email" id="loginEmail" placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="loginPassword" placeholder="••••••••">
+        </div>
+        <button class="btn-auth" onclick="signIn()">Sign in →</button>
+      </div>
+
+      <!-- Signup form -->
+      <div id="signupForm" style="display:none;">
+        <div class="form-group">
+          <label>Email address</label>
+          <input type="email" id="signupEmail" placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="signupPassword" placeholder="At least 8 characters">
+        </div>
+        <button class="btn-auth" onclick="signUp()">Create account →</button>
+      </div>
+
+      <p class="auth-guarantee">🔒 14-day money-back guarantee · No questions asked</p>
+    </div>
+  </div>
+</div>
+
+<!-- ONBOARDING SCREEN -->
+<div id="onboardingScreen">
+  <div class="onboarding-box">
+    <div class="ob-progress">
+      <div class="ob-step-dot active" id="dot1"></div>
+      <div class="ob-step-dot" id="dot2"></div>
+      <div class="ob-step-dot" id="dot3"></div>
+      <div class="ob-step-dot" id="dot4"></div>
+      <div class="ob-step-dot" id="dot5"></div>
+    </div>
+
+    <!-- Step 1 -->
+    <div class="ob-step active" id="obStep1">
+      <div class="ob-label">Step 1 of 5</div>
+      <div class="ob-title">What's your business called?</div>
+      <div class="ob-sub">This is how BrandFlow will refer to your business in all generated content.</div>
+      <input class="ob-input" type="text" id="obBizName" placeholder="e.g. The Corner Café">
+      <div class="ob-nav">
+        <div></div>
+        <button class="btn-ob-next" onclick="obNext(1)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="ob-step" id="obStep2">
+      <div class="ob-label">Step 2 of 5</div>
+      <div class="ob-title">What do you do?</div>
+      <div class="ob-sub">Describe what your business sells or offers. The more detail, the better your content.</div>
+      <textarea class="ob-textarea" id="obBizDesc" placeholder="e.g. We're a cosy neighbourhood café in Fitzroy serving hand-roasted specialty coffee, house-made pastries, and all-day brunch. Known for our flat whites and relaxed vibe."></textarea>
+      <div class="ob-nav">
+        <button class="btn-ob-back" onclick="obBack(2)">← Back</button>
+        <button class="btn-ob-next" onclick="obNext(2)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="ob-step" id="obStep3">
+      <div class="ob-label">Step 3 of 5</div>
+      <div class="ob-title">Who are your customers?</div>
+      <div class="ob-sub">Describe your ideal customer — who they are, what they care about, why they come to you.</div>
+      <textarea class="ob-textarea" id="obAudience" placeholder="e.g. Local residents aged 25-45, young professionals and families, people who value quality over price and want a welcoming local spot to work or catch up with friends."></textarea>
+      <input class="ob-input" id="obLocation" placeholder="Your suburb / city (e.g. Fitzroy, Melbourne)">
+      <div class="ob-nav">
+        <button class="btn-ob-back" onclick="obBack(3)">← Back</button>
+        <button class="btn-ob-next" onclick="obNext(3)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="ob-step" id="obStep4">
+      <div class="ob-label">Step 4 of 5</div>
+      <div class="ob-title">What's your brand voice?</div>
+      <div class="ob-sub">Pick the tone that feels most like your business.</div>
+      <div class="tone-grid">
+        <button class="tone-btn" onclick="selectTone(this, 'friendly & warm')">😊 Friendly & warm</button>
+        <button class="tone-btn" onclick="selectTone(this, 'professional & trustworthy')">💼 Professional</button>
+        <button class="tone-btn" onclick="selectTone(this, 'fun & playful')">🎉 Fun & playful</button>
+        <button class="tone-btn" onclick="selectTone(this, 'bold & confident')">💪 Bold & confident</button>
+        <button class="tone-btn" onclick="selectTone(this, 'premium & sophisticated')">✨ Premium</button>
+        <button class="tone-btn" onclick="selectTone(this, 'casual & conversational')">💬 Casual</button>
+      </div>
+      <div class="ob-nav">
+        <button class="btn-ob-back" onclick="obBack(4)">← Back</button>
+        <button class="btn-ob-next" onclick="obNext(4)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 5 -->
+    <div class="ob-step" id="obStep5">
+      <div class="ob-label">Step 5 of 5</div>
+      <div class="ob-title">Which platforms do you use?</div>
+      <div class="ob-sub">Select all that apply — BrandFlow will generate content for these.</div>
+      <div class="platform-grid">
+        <button class="platform-btn" onclick="togglePlatform(this, 'Facebook')">📘 Facebook</button>
+        <button class="platform-btn" onclick="togglePlatform(this, 'Instagram')">📸 Instagram</button>
+        <button class="platform-btn" onclick="togglePlatform(this, 'Email')">📧 Email</button>
+        <button class="platform-btn" onclick="togglePlatform(this, 'LinkedIn')">💼 LinkedIn</button>
+        <button class="platform-btn" onclick="togglePlatform(this, 'Twitter')">🐦 Twitter / X</button>
+        <button class="platform-btn" onclick="togglePlatform(this, 'TikTok')">🎵 TikTok</button>
+      </div>
+      <div class="ob-nav">
+        <button class="btn-ob-back" onclick="obBack(5)">← Back</button>
+        <button class="btn-ob-next" onclick="finishOnboarding()">Build my Brand DNA ✨</button>
+      </div>
+    </div>
+
+    <!-- DNA Loading -->
+    <div id="dnaLoading">
+      <div class="dna-spinner"></div>
+      <div class="dna-title">Building your Brand DNA...</div>
+      <div class="dna-sub">Analysing your business and setting up your content engine</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP SCREEN -->
+<div id="appScreen">
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">Brand<span>Flow</span></div>
+      <nav class="sidebar-nav">
+        <button class="nav-item active" onclick="switchTab('generate')">
+          <span class="icon">✨</span> Generate
+        </button>
+        <button class="nav-item" onclick="switchTab('saved')">
+          <span class="icon">💾</span> Saved content
+        </button>
+        <button class="nav-item" onclick="switchTab('brand')">
+          <span class="icon">🧬</span> Brand DNA
+        </button>
+        <button class="nav-item" onclick="switchTab('settings')">
+          <span class="icon">⚙️</span> Settings
+        </button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sidebar-plan">
+          <div class="sidebar-plan-label">Current plan</div>
+          <div class="sidebar-plan-name" id="sidebarPlan">Growth</div>
+        </div>
+        <button class="btn-signout" onclick="signOut()">Sign out</button>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+      <div class="topbar">
+        <div class="topbar-greeting">
+          <h2 id="greeting">Good morning! 👋</h2>
+          <p id="greetingSub">Ready to create some great content today?</p>
+        </div>
+        <div class="topbar-biz">
+          <div class="topbar-biz-avatar" id="bizAvatar">☕</div>
+          <div class="topbar-biz-name" id="bizName">My Business</div>
+        </div>
+      </div>
+
+      <!-- Generate tab -->
+      <div class="screen active" id="generateTab">
+        <div class="generate-panel">
+          <h3>Generate content</h3>
+          <p>Tell BrandFlow what to write about and pick your platforms</p>
+          <div class="generate-row">
+            <input class="generate-input" id="topicInput" placeholder="e.g. New winter menu, weekend special, staff spotlight...">
+            <button class="btn-generate" id="generateBtn" onclick="generateContent()">Generate ✨</button>
+          </div>
+          <div class="platform-pills" id="platformPills"></div>
+        </div>
+
+        <div class="feed-header">
+          <h3>Your content</h3>
+        </div>
+
+        <div id="contentFeed">
+          <div class="empty-state">
+            <div class="empty-icon">✨</div>
+            <div class="empty-title">Ready when you are</div>
+            <div class="empty-sub">Enter a topic above and hit Generate to create your first batch of content</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Saved tab -->
+      <div class="screen" id="savedTab">
+        <div class="feed-header">
+          <h3>Saved content</h3>
+        </div>
+        <div id="savedFeed">
+          <div class="empty-state">
+            <div class="empty-icon">💾</div>
+            <div class="empty-title">Nothing saved yet</div>
+            <div class="empty-sub">Generate some content and save the pieces you love</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Brand DNA tab -->
+      <div class="screen" id="brandTab">
+        <div class="generate-panel">
+          <h3>Your Brand DNA 🧬</h3>
+          <p>This is what BrandFlow knows about your business</p>
+          <div id="brandDnaDisplay" style="margin-top:8px;"></div>
+        </div>
+      </div>
+
+      <!-- Settings tab -->
+      <div class="screen" id="settingsTab">
+        <div class="generate-panel">
+          <h3>Account settings</h3>
+          <p>Manage your BrandFlow account</p>
+          <div style="margin-top:16px;">
+            <p style="font-size:14px;color:var(--muted);margin-bottom:8px;">Email: <strong id="settingsEmail" style="color:var(--navy);">-</strong></p>
+            <p style="font-size:14px;color:var(--muted);">Plan: <strong id="settingsPlan" style="color:var(--coral);">Growth</strong></p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── SUPABASE INIT ──
+const SUPABASE_URL = 'https://uydmtkoixneorcmrdabp.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5ZG10a29peG5lb3JjbXJkYWJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0OTcyMDYsImV4cCI6MjA4ODA3MzIwNn0.bqT2jmxLmN6ku6dKVfCoH4sYkaExR0ed1SuS0Pm6etM';
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ── STATE ──
+let currentUser = null;
+let brandProfile = null;
+let selectedTone = '';
+let selectedPlatforms = [];
+let activePlatforms = [];
+let savedItems = [];
+let generatedCards = [];
+
+// ── INIT ──
+window.addEventListener('load', async () => {
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) {
+    currentUser = session.user;
+    const profile = localStorage.getItem('brandProfile_' + currentUser.id);
+    if (profile) {
+      brandProfile = JSON.parse(profile);
+      showApp();
+    } else {
+      showOnboarding();
+    }
+  } else {
+    showAuth();
+  }
+  sb.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_IN' && session) {
+      currentUser = session.user;
+      const profile = localStorage.getItem('brandProfile_' + currentUser.id);
+      if (profile) { brandProfile = JSON.parse(profile); showApp(); }
+      else showOnboarding();
+    }
+    if (event === 'SIGNED_OUT') { currentUser = null; showAuth(); }
+  });
+});
+
+// ── SCREEN HELPERS ──
+function showAuth() {
+  document.getElementById('authScreen').style.display = 'grid';
+  document.getElementById('onboardingScreen').style.display = 'none';
+  document.getElementById('appScreen').style.display = 'none';
+}
+function showOnboarding() {
+  document.getElementById('authScreen').style.display = 'none';
+  document.getElementById('onboardingScreen').style.display = 'flex';
+  document.getElementById('appScreen').style.display = 'none';
+}
+function showApp() {
+  document.getElementById('authScreen').style.display = 'none';
+  document.getElementById('onboardingScreen').style.display = 'none';
+  document.getElementById('appScreen').style.display = 'block';
+  initApp();
+}
+
+// ── AUTH ──
+function switchAuthTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (i===0 && tab==='login') || (i===1 && tab==='signup')));
+  document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('signupForm').style.display = tab === 'signup' ? 'block' : 'none';
+  clearAuthMessages();
+}
+
+function showAuthError(msg) {
+  const el = document.getElementById('authError');
+  el.textContent = msg; el.style.display = 'block';
+  document.getElementById('authSuccess').style.display = 'none';
+}
+function showAuthSuccess(msg) {
+  const el = document.getElementById('authSuccess');
+  el.textContent = msg; el.style.display = 'block';
+  document.getElementById('authError').style.display = 'none';
+}
+function clearAuthMessages() {
+  document.getElementById('authError').style.display = 'none';
+  document.getElementById('authSuccess').style.display = 'none';
+}
+
+async function signIn() {
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+  if (!email || !password) return showAuthError('Please enter your email and password.');
+  const { error } = await sb.auth.signInWithPassword({ email, password });
+  if (error) showAuthError(error.message);
+}
+
+async function signUp() {
+  const email = document.getElementById('signupEmail').value;
+  const password = document.getElementById('signupPassword').value;
+  if (!email || !password) return showAuthError('Please fill in all fields.');
+  if (password.length < 8) return showAuthError('Password must be at least 8 characters.');
+  const { error } = await sb.auth.signUp({ email, password });
+  if (error) showAuthError(error.message);
+  else showAuthSuccess('Account created! Check your email to confirm, then sign in.');
+}
+
+async function signInWithGoogle() {
+  const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } });
+  if (error) showAuthError(error.message);
+}
+
+async function signOut() {
+  await sb.auth.signOut();
+}
+
+// ── ONBOARDING ──
+let currentObStep = 1;
+
+function obNext(step) {
+  if (step === 1 && !document.getElementById('obBizName').value.trim()) return alert('Please enter your business name.');
+  if (step === 2 && !document.getElementById('obBizDesc').value.trim()) return alert('Please describe your business.');
+  if (step === 3 && !document.getElementById('obAudience').value.trim()) return alert('Please describe your customers.');
+  if (step === 4 && !selectedTone) return alert('Please select a brand tone.');
+  goToObStep(step + 1);
+}
+function obBack(step) { goToObStep(step - 1); }
+
+function goToObStep(step) {
+  document.querySelectorAll('.ob-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('obStep' + step).classList.add('active');
+  for (let i = 1; i <= 5; i++) {
+    const dot = document.getElementById('dot' + i);
+    dot.classList.toggle('active', i === step);
+    dot.classList.toggle('done', i < step);
+  }
+  currentObStep = step;
+}
+
+function selectTone(btn, tone) {
+  document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedTone = tone;
+}
+
+function togglePlatform(btn, platform) {
+  btn.classList.toggle('selected');
+  if (selectedPlatforms.includes(platform)) {
+    selectedPlatforms = selectedPlatforms.filter(p => p !== platform);
+  } else {
+    selectedPlatforms.push(platform);
+  }
+}
+
+async function finishOnboarding() {
+  if (selectedPlatforms.length === 0) return alert('Please select at least one platform.');
+  document.querySelectorAll('.ob-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('dnaLoading').style.display = 'block';
+
+  brandProfile = {
+    bizName: document.getElementById('obBizName').value.trim(),
+    bizDesc: document.getElementById('obBizDesc').value.trim(),
+    audience: document.getElementById('obAudience').value.trim(),
+    location: document.getElementById('obLocation').value.trim(),
+    tone: selectedTone,
+    platforms: selectedPlatforms,
+  };
+
+  localStorage.setItem('brandProfile_' + currentUser.id, JSON.stringify(brandProfile));
+
+  await new Promise(r => setTimeout(r, 2500));
+  showApp();
+}
+
+// ── APP INIT ──
+function initApp() {
+  const hour = new Date().getHours();
+  const greet = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+  document.getElementById('greeting').textContent = greet + '! 👋';
+
+  if (brandProfile) {
+    document.getElementById('bizName').textContent = brandProfile.bizName;
+    document.getElementById('bizAvatar').textContent = brandProfile.bizName[0] || '🏢';
+    document.getElementById('settingsEmail').textContent = currentUser.email;
+    activePlatforms = brandProfile.platforms;
+    renderPlatformPills();
+    renderBrandDna();
+  }
+
+  const saved = localStorage.getItem('saved_' + currentUser.id);
+  if (saved) savedItems = JSON.parse(saved);
+}
+
+function renderPlatformPills() {
+  const container = document.getElementById('platformPills');
+  container.innerHTML = '';
+  activePlatforms.forEach((p, i) => {
+    const pill = document.createElement('button');
+    pill.className = 'platform-pill' + (i === 0 ? ' active' : '');
+    pill.textContent = platformEmoji(p) + ' ' + p;
+    pill.onclick = () => { pill.classList.toggle('active'); };
+    container.appendChild(pill);
+  });
+}
+
+function platformEmoji(p) {
+  const map = { Facebook: '📘', Instagram: '📸', Email: '📧', LinkedIn: '💼', Twitter: '🐦', TikTok: '🎵' };
+  return map[p] || '📱';
+}
+
+function renderBrandDna() {
+  if (!brandProfile) return;
+  const el = document.getElementById('brandDnaDisplay');
+  el.innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div style="background:var(--cream);padding:16px;border-radius:12px;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px;">Business</div>
+        <div style="font-size:14px;font-weight:600;color:var(--navy);">${brandProfile.bizName}</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:4px;">${brandProfile.location || ''}</div>
+      </div>
+      <div style="background:var(--cream);padding:16px;border-radius:12px;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px;">Brand voice</div>
+        <div style="font-size:14px;font-weight:600;color:var(--navy);">${brandProfile.tone}</div>
+      </div>
+      <div style="background:var(--cream);padding:16px;border-radius:12px;grid-column:1/-1;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px;">What you do</div>
+        <div style="font-size:13px;color:var(--text);line-height:1.6;">${brandProfile.bizDesc}</div>
+      </div>
+      <div style="background:var(--cream);padding:16px;border-radius:12px;grid-column:1/-1;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px;">Platforms</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">${brandProfile.platforms.map(p => `<span style="background:white;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600;color:var(--navy);">${platformEmoji(p)} ${p}</span>`).join('')}</div>
+      </div>
+    </div>
+  `;
+}
+
+// ── CONTENT GENERATION ──
+async function generateContent() {
+  const topic = document.getElementById('topicInput').value.trim();
+  if (!topic) return showToast('Please enter a topic first');
+
+  const activePills = [...document.querySelectorAll('.platform-pill.active')].map(p => p.textContent.trim().replace(/^.+?\s/, ''));
+  const platforms = activePills.length > 0 ? activePills : [brandProfile.platforms[0]];
+
+  const btn = document.getElementById('generateBtn');
+  btn.disabled = true;
+  btn.textContent = 'Generating...';
+
+  // Show skeletons
+  const feed = document.getElementById('contentFeed');
+  feed.innerHTML = platforms.flatMap(() => ['', '']).map(() => `
+    <div class="skeleton-card">
+      <div class="skeleton-line short"></div>
+      <div class="skeleton-line"></div>
+      <div class="skeleton-line medium"></div>
+      <div class="skeleton-line"></div>
+      <div class="skeleton-line short"></div>
+    </div>
+  `).join('');
+  feed.style.display = 'grid';
+  feed.style.gridTemplateColumns = 'repeat(2,1fr)';
+  feed.style.gap = '20px';
+
+  try {
+    const prompt = `You are a marketing content writer for a local business. Generate social media content based on this brand profile:
+
+Business: ${brandProfile.bizName}
+Description: ${brandProfile.bizDesc}
+Target audience: ${brandProfile.audience}
+Location: ${brandProfile.location}
+Brand voice: ${brandProfile.tone}
+Topic to write about: ${topic}
+
+Generate content for these platforms: ${platforms.join(', ')}
+
+For EACH platform, create 2 variations. Return ONLY a valid JSON array. Each object must have:
+- platform (string)
+- variation (number, 1 or 2)
+- content (the post copy)
+- hashtags (array of strings, 3-8 tags)
+- cta (call to action string)
+- charCount (number)
+
+Make the content sound natural, local, and on-brand. Include emojis where appropriate. Keep within platform character limits (Twitter: 280, others: flexible).`;
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+
+    const data = await response.json();
+    const text = data.content.map(c => c.text || '').join('');
+    const clean = text.replace(/```json|```/g, '').trim();
+    const cards = JSON.parse(clean);
+    generatedCards = cards;
+    renderCards(cards, feed);
+  } catch (e) {
+    feed.innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">Something went wrong</div><div class="empty-sub">Please try again</div></div>';
+    feed.style.display = 'block';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Generate ✨';
+}
+
+function renderCards(cards, container) {
+  if (!cards || cards.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-icon">🤔</div><div class="empty-title">No content generated</div><div class="empty-sub">Try a different topic</div></div>';
+    container.style.display = 'block';
+    return;
+  }
+  container.style.display = 'grid';
+  container.style.gridTemplateColumns = 'repeat(2,1fr)';
+  container.style.gap = '20px';
+  container.innerHTML = cards.map((card, i) => {
+    const platform = card.platform.toLowerCase();
+    const charWarning = (platform === 'twitter' && card.charCount > 260) || card.charCount > 2000;
+    return `
+      <div class="content-card">
+        <div class="card-platform">
+          <span class="card-platform-badge ${platform}">${platformEmoji(card.platform)} ${card.platform}</span>
+          <span class="card-variation">Variation ${card.variation}</span>
+        </div>
+        <div class="card-text">${card.content}</div>
+        <div class="card-tags">${(card.hashtags||[]).map(h => `<span class="card-tag">${h.startsWith('#') ? h : '#'+h}</span>`).join('')}</div>
+        <div class="card-cta">👉 ${card.cta}</div>
+        <div class="card-char ${charWarning ? 'warning' : ''}">${card.charCount} characters ${charWarning ? '⚠️ near limit' : ''}</div>
+        <div class="card-actions">
+          <button class="btn-card btn-card-copy" onclick="copyCard(${i})">Copy</button>
+          <button class="btn-card btn-card-save" id="saveBtn${i}" onclick="saveCard(${i})">Save</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function copyCard(i) {
+  const card = generatedCards[i];
+  const text = card.content + '\n\n' + (card.hashtags||[]).join(' ');
+  navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard! ✓'));
+}
+
+function saveCard(i) {
+  const card = generatedCards[i];
+  savedItems.push({ ...card, savedAt: new Date().toISOString() });
+  localStorage.setItem('saved_' + currentUser.id, JSON.stringify(savedItems));
+  const btn = document.getElementById('saveBtn' + i);
+  btn.textContent = 'Saved ✓';
+  btn.className = 'btn-card btn-card-saved';
+  showToast('Content saved! 💾');
+  renderSaved();
+}
+
+function renderSaved() {
+  const feed = document.getElementById('savedFeed');
+  if (savedItems.length === 0) {
+    feed.innerHTML = '<div class="empty-state"><div class="empty-icon">💾</div><div class="empty-title">Nothing saved yet</div><div class="empty-sub">Generate some content and save the pieces you love</div></div>';
+    return;
+  }
+  feed.style.display = 'grid';
+  feed.style.gridTemplateColumns = 'repeat(2,1fr)';
+  feed.style.gap = '20px';
+  feed.innerHTML = savedItems.slice().reverse().map((card, i) => {
+    const platform = (card.platform||'').toLowerCase();
+    return `
+      <div class="content-card">
+        <div class="card-platform">
+          <span class="card-platform-badge ${platform}">${platformEmoji(card.platform)} ${card.platform}</span>
+          <span class="card-variation" style="font-size:11px;color:var(--muted);">${new Date(card.savedAt).toLocaleDateString()}</span>
+        </div>
+        <div class="card-text">${card.content}</div>
+        <div class="card-tags">${(card.hashtags||[]).map(h => `<span class="card-tag">${h.startsWith('#') ? h : '#'+h}</span>`).join('')}</div>
+        <div class="card-cta">👉 ${card.cta}</div>
+        <div class="card-actions">
+          <button class="btn-card btn-card-copy" onclick="navigator.clipboard.writeText('${card.content.replace(/'/g,"\\'")}');showToast('Copied! ✓')">Copy</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ── TAB SWITCHING ──
+function switchTab(tab) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(tab + 'Tab').classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  if (tab === 'saved') renderSaved();
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
