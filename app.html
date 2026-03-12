@@ -363,7 +363,6 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); c
       </div>
 
       <p class="auth-guarantee">🔒 14-day money-back guarantee · No questions asked</p>
-      <p style="text-align:center;margin-top:16px;font-size:13px;"><a href="/" style="color:var(--muted);text-decoration:none;">← Back to homepage</a></p>
     </div>
   </div>
 </div>
@@ -386,7 +385,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); c
       <div class="ob-sub">This is how BrandFlow will refer to your business in all generated content.</div>
       <input class="ob-input" type="text" id="obBizName" placeholder="e.g. The Corner Café">
       <div class="ob-nav">
-        <a href="/" style="color:var(--muted);font-size:14px;text-decoration:none;">← Homepage</a>
+        <button class="btn-ob-back" onclick="showAuth()">← Back to login</button>
         <button class="btn-ob-next" onclick="obNext(1)">Continue →</button>
       </div>
     </div>
@@ -460,6 +459,61 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); c
       <div class="dna-title">Building your Brand DNA...</div>
       <div class="dna-sub">Analysing your business and setting up your content engine</div>
     </div>
+  </div>
+</div>
+
+<!-- PRICING SCREEN -->
+<div id="pricingScreen" style="display:none;min-height:100vh;background:var(--cream);padding:60px 40px;">
+  <div style="max-width:900px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:48px;">
+      <div style="font-family:'Fraunces',serif;font-size:32px;font-weight:700;color:var(--navy);margin-bottom:12px;">Choose your plan</div>
+      <p style="color:var(--muted);font-size:16px;">14-day money-back guarantee — no questions asked</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:start;">
+      <!-- Starter -->
+      <div style="background:white;border-radius:24px;padding:32px;border:1.5px solid rgba(0,0,0,0.06);">
+        <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--coral);margin-bottom:12px;">Starter</div>
+        <div style="font-family:'Fraunces',serif;font-size:48px;font-weight:700;color:var(--navy);line-height:1;">$19</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:24px;">per month</div>
+        <ul style="list-style:none;margin-bottom:28px;">
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;align-items:center;"><span style="color:var(--green);font-weight:700;">✓</span> 1 brand profile</li>
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;align-items:center;"><span style="color:var(--green);font-weight:700;">✓</span> 50 generations/month</li>
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;align-items:center;"><span style="color:var(--green);font-weight:700;">✓</span> Facebook, Instagram, Email</li>
+          <li style="font-size:14px;padding:7px 0;display:flex;gap:8px;align-items:center;"><span style="color:var(--green);font-weight:700;">✓</span> Email support</li>
+        </ul>
+        <a href="https://buy.stripe.com/test_fZu4gy3aobAtayJbfC9AA01" style="display:block;text-align:center;padding:13px;border-radius:100px;border:2px solid rgba(0,0,0,0.12);color:var(--navy);font-weight:700;font-size:14px;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--coral)';this.style.color='var(--coral)'" onmouseout="this.style.borderColor='rgba(0,0,0,0.12)';this.style.color='var(--navy)'">Get started →</a>
+      </div>
+      <!-- Growth -->
+      <div style="background:var(--navy);border-radius:24px;padding:32px;position:relative;transform:scale(1.04);">
+        <div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--coral);color:white;font-size:11px;font-weight:700;padding:5px 14px;border-radius:100px;white-space:nowrap;text-transform:uppercase;letter-spacing:0.06em;">Most Popular</div>
+        <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--coral);margin-bottom:12px;">Growth</div>
+        <div style="font-family:'Fraunces',serif;font-size:48px;font-weight:700;color:white;line-height:1;">$39</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:24px;">per month</div>
+        <ul style="list-style:none;margin-bottom:28px;">
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;gap:8px;align-items:center;color:rgba(255,255,255,0.75);"><span style="color:var(--green);font-weight:700;">✓</span> 2 brand profiles</li>
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;gap:8px;align-items:center;color:rgba(255,255,255,0.75);"><span style="color:var(--green);font-weight:700;">✓</span> Unlimited generations</li>
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;gap:8px;align-items:center;color:rgba(255,255,255,0.75);"><span style="color:var(--green);font-weight:700;">✓</span> All 6 platforms</li>
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;gap:8px;align-items:center;color:rgba(255,255,255,0.75);"><span style="color:var(--green);font-weight:700;">✓</span> Download content packs</li>
+          <li style="font-size:14px;padding:7px 0;display:flex;gap:8px;align-items:center;color:rgba(255,255,255,0.75);"><span style="color:var(--green);font-weight:700;">✓</span> Priority support</li>
+        </ul>
+        <a href="https://buy.stripe.com/test_7sY6oG3aodIB22d5Vi9AA02" style="display:block;text-align:center;padding:13px;border-radius:100px;background:var(--coral);color:white;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 8px 24px rgba(255,92,58,0.3);">Get started →</a>
+      </div>
+      <!-- Agency -->
+      <div style="background:white;border-radius:24px;padding:32px;border:1.5px solid rgba(0,0,0,0.06);">
+        <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--coral);margin-bottom:12px;">Agency</div>
+        <div style="font-family:'Fraunces',serif;font-size:48px;font-weight:700;color:var(--navy);line-height:1;">$79</div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:24px;">per month</div>
+        <ul style="list-style:none;margin-bottom:28px;">
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;align-items:center;"><span style="color:var(--green);font-weight:700;">✓</span> 5 brand profiles</li>
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;align-items:center;"><span style="color:var(--green);font-weight:700;">✓</span> Unlimited generations</li>
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;align-items:center;"><span style="color:var(--green);font-weight:700;">✓</span> All 6 platforms</li>
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;align-items:center;"><span style="color:var(--green);font-weight:700;">✓</span> White-label exports</li>
+          <li style="font-size:14px;padding:7px 0;display:flex;gap:8px;align-items:center;"><span style="color:var(--green);font-weight:700;">✓</span> Dedicated support</li>
+        </ul>
+        <a href="https://buy.stripe.com/test_7sY4gy7qEawpeOZ4Re9AA03" style="display:block;text-align:center;padding:13px;border-radius:100px;border:2px solid rgba(0,0,0,0.12);color:var(--navy);font-weight:700;font-size:14px;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--coral)';this.style.color='var(--coral)'" onmouseout="this.style.borderColor='rgba(0,0,0,0.12)';this.style.color='var(--navy)'">Get started →</a>
+      </div>
+    </div>
+    <p style="text-align:center;margin-top:28px;font-size:13px;color:var(--muted);">🔒 Secure checkout via Stripe · 14-day money-back guarantee · Cancel anytime</p>
   </div>
 </div>
 
@@ -606,8 +660,10 @@ window.addEventListener('load', async () => {
     if (event === 'SIGNED_IN' && session) {
       currentUser = session.user;
       const profile = localStorage.getItem('brandProfile_' + currentUser.id);
+      const paid = localStorage.getItem('paid_' + currentUser.id);
       if (profile) { brandProfile = JSON.parse(profile); showApp(); }
-      else showOnboarding();
+      else if (paid) showOnboarding();
+      else showPricing();
     }
     if (event === 'SIGNED_OUT') { currentUser = null; showAuth(); }
   });
@@ -617,16 +673,25 @@ window.addEventListener('load', async () => {
 function showAuth() {
   document.getElementById('authScreen').style.display = 'grid';
   document.getElementById('onboardingScreen').style.display = 'none';
+  document.getElementById('pricingScreen').style.display = 'none';
   document.getElementById('appScreen').style.display = 'none';
 }
 function showOnboarding() {
   document.getElementById('authScreen').style.display = 'none';
   document.getElementById('onboardingScreen').style.display = 'flex';
+  document.getElementById('pricingScreen').style.display = 'none';
+  document.getElementById('appScreen').style.display = 'none';
+}
+function showPricing() {
+  document.getElementById('authScreen').style.display = 'none';
+  document.getElementById('onboardingScreen').style.display = 'none';
+  document.getElementById('pricingScreen').style.display = 'block';
   document.getElementById('appScreen').style.display = 'none';
 }
 function showApp() {
   document.getElementById('authScreen').style.display = 'none';
   document.getElementById('onboardingScreen').style.display = 'none';
+  document.getElementById('pricingScreen').style.display = 'none';
   document.getElementById('appScreen').style.display = 'block';
   initApp();
 }
@@ -677,7 +742,7 @@ async function signUp() {
   if (password.length < 8) return showAuthError('Password must be at least 8 characters.');
   const { error } = await sb.auth.signUp({ email, password });
   if (error) showAuthError(error.message);
-  else showAuthSuccess('Account created! Check your email to confirm, then sign in.');
+  else showAuthSuccess('Account created! Check your email to confirm your address, then come back and sign in to choose your plan.');
 }
 
 async function signInWithGoogle() {
