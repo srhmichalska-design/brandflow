@@ -737,10 +737,6 @@ async function signUp() {
   else showAuthSuccess('Account created! Check your email to confirm your address, then come back and sign in to choose your plan.');
 }
 
-async function signInWithGoogle() {
-  const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } });
-  if (error) showAuthError(error.message);
-}
 
 async function signOut() {
   await sb.auth.signOut();
