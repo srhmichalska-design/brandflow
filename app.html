@@ -363,6 +363,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); c
       </div>
 
       <p class="auth-guarantee">🔒 14-day money-back guarantee · No questions asked</p>
+      <p style="text-align:center;margin-top:16px;font-size:13px;"><a href="/" style="color:var(--muted);text-decoration:none;">← Back to homepage</a></p>
     </div>
   </div>
 </div>
@@ -385,7 +386,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); c
       <div class="ob-sub">This is how BrandFlow will refer to your business in all generated content.</div>
       <input class="ob-input" type="text" id="obBizName" placeholder="e.g. The Corner Café">
       <div class="ob-nav">
-        <div></div>
+        <a href="/" style="color:var(--muted);font-size:14px;text-decoration:none;">← Homepage</a>
         <button class="btn-ob-next" onclick="obNext(1)">Continue →</button>
       </div>
     </div>
@@ -658,7 +659,15 @@ async function signIn() {
   const password = document.getElementById('loginPassword').value;
   if (!email || !password) return showAuthError('Please enter your email and password.');
   const { error } = await sb.auth.signInWithPassword({ email, password });
-  if (error) showAuthError(error.message);
+  if (error) {
+    if (error.message.includes('Email not confirmed')) {
+      showAuthError('Please check your email and click the confirmation link first.');
+    } else if (error.message.includes('Invalid login credentials')) {
+      showAuthError('Incorrect email or password. Try again or create a new account.');
+    } else {
+      showAuthError(error.message);
+    }
+  }
 }
 
 async function signUp() {
