@@ -657,14 +657,12 @@ window.addEventListener('load', async () => {
     showAuth();
   }
   sb.auth.onAuthStateChange((event, session) => {
-    if (event === 'SIGNED_IN' && session) {
-      currentUser = session.user;
-      const profile = localStorage.getItem('brandProfile_' + currentUser.id);
-      const paid = localStorage.getItem('paid_' + currentUser.id);
-      if (profile) { brandProfile = JSON.parse(profile); showApp(); }
-      else if (paid) showOnboarding();
-      else showPricing();
-    }
+if (event === 'SIGNED_IN' && session) {
+  currentUser = session.user;
+  const profile = localStorage.getItem('brandProfile_' + currentUser.id);
+  if (profile) { brandProfile = JSON.parse(profile); showApp(); }
+  else showOnboarding();
+}
     if (event === 'SIGNED_OUT') { currentUser = null; showAuth(); }
   });
 });
