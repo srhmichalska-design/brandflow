@@ -6,12 +6,26 @@ const sb = createClient(
   process.env.SUPABASE_SERVICE_KEY
 );
 
-// Map Stripe price/product to plan names
-// You'll fill these in once you have your live price IDs
+// Tell Vercel not to parse the body — Stripe needs the raw bytes to verify the signature
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+function getRawBody(req) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    req.on('data', chunk => chunks.push(chunk));
+    req.on('end', () => resolve(Buffer.concat(chunks)));
+    req.on('error', reject);
+  });
+}
+
 const PLAN_MAP = {
-  'price_starter':  'starter',
-  'price_growth':   'growth',
-  'price_agency':   'agency',
+  'price_starter': 'starter',
+  'price_growth':  'growth',
+  'price_agency':  'agency',
 };
 
 function getPlanFromSubscription(subscription) {
@@ -25,11 +39,12 @@ module.exports = async (req, res) => {
   }
 
   const sig = req.headers['stripe-signature'];
+  const rawBody = await getRawBody(req);
   let event;
 
   try {
     event = stripe.webhooks.constructEvent(
-      req.body,
+      rawBody,
       sig,
       process.env.STRIPE_WEBHOOK_SECRET
     );
@@ -41,7 +56,6 @@ module.exports = async (req, res) => {
   try {
     switch (event.type) {
 
-      // Payment completed — activate subscription
       case 'checkout.session.completed': {
         const session = event.data.object;
         const customerId = session.customer;
@@ -52,29 +66,26 @@ module.exports = async (req, res) => {
           break;
         }
 
-        // Find user by email and update their profile
-        const { data: profiles, error } = await sb
+        const { error } = await sb
           .from('profiles')
           .update({
             stripe_customer_id: customerId,
             subscription_status: 'active',
-            plan: 'growth', // default — refined below if subscription exists
+            plan: 'growth',
             updated_at: new Date().toISOString(),
           })
-          .eq('email', customerEmail)
-          .select();
+          .eq('email', customerEmail);
 
         if (error) console.error('Supabase update error (checkout):', error);
         else console.log('Activated subscription for:', customerEmail);
         break;
       }
 
-      // Subscription changed — update plan or status
       case 'customer.subscription.updated': {
         const subscription = event.data.object;
         const customerId = subscription.customer;
         const plan = getPlanFromSubscription(subscription);
-        const status = subscription.status; // active, past_due, canceled, etc.
+        const status = subscription.status;
 
         const { error } = await sb
           .from('profiles')
@@ -90,7 +101,6 @@ module.exports = async (req, res) => {
         break;
       }
 
-      // Subscription cancelled — revoke access
       case 'customer.subscription.deleted': {
         const subscription = event.data.object;
         const customerId = subscription.customer;
