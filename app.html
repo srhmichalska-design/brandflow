@@ -336,11 +336,17 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); c
           <label>Email address</label>
           <input type="email" id="loginEmail" placeholder="you@example.com">
         </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="loginPassword" placeholder="••••••••">
-        </div>
-        <button class="btn-auth" onclick="signIn()">Sign in →</button>
+      <div class="form-group">
+  <label>Password</label>
+  <div style="position:relative;">
+    <input type="password" id="loginPassword" placeholder="••••••••" style="width:100%;padding-right:44px;">
+    <button type="button" onclick="togglePassword('loginPassword', this)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#6B7280;">👁</button>
+  </div>
+</div>
+<div style="text-align:right;margin-bottom:12px;">
+  <a href="#" onclick="resetPassword()" style="font-size:13px;color:var(--coral);text-decoration:none;">Forgot password?</a>
+</div>
+<button class="btn-auth" onclick="signIn()">Sign in →</button>
       </div>
 
       <!-- Signup form -->
