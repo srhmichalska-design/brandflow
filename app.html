@@ -10,7 +10,6 @@
 :root {
   --coral: #FF5C3A;
   --navy: #0F1B2D;
-  --navy-mid: #1A2E45;
   --cream: #FDF8F2;
   --cream-dark: #F5EDE0;
   --green: #2ECC71;
@@ -21,169 +20,90 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); color: var(--text); min-height: 100vh; }
 
-/* ── AUTH SCREEN ── */
-#authScreen {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-.auth-left {
-  background: var(--navy);
-  padding: 60px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  overflow: hidden;
-}
-.auth-left::before {
-  content: '';
-  position: absolute;
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(255,92,58,0.2) 0%, transparent 65%);
-  top: -100px; right: -100px;
-  pointer-events: none;
-}
+/* AUTH */
+#authScreen { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; }
+.auth-left { background: var(--navy); padding: 60px; display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
+.auth-left::before { content: ''; position: absolute; width: 500px; height: 500px; background: radial-gradient(circle, rgba(255,92,58,0.2) 0%, transparent 65%); top: -100px; right: -100px; pointer-events: none; }
 .auth-logo { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 700; color: white; }
 .auth-logo span { color: var(--coral); }
 .auth-tagline { position: relative; z-index: 1; }
 .auth-tagline h2 { font-family: 'Fraunces', serif; font-size: 42px; font-weight: 700; color: white; line-height: 1.2; margin-bottom: 20px; }
 .auth-tagline h2 em { color: var(--coral); font-style: italic; }
 .auth-tagline p { color: rgba(255,255,255,0.55); font-size: 16px; line-height: 1.7; }
-.auth-testimonial {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 16px;
-  padding: 24px;
-  position: relative; z-index: 1;
-}
+.auth-testimonial { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 24px; position: relative; z-index: 1; }
 .auth-testimonial p { color: rgba(255,255,255,0.8); font-size: 14px; line-height: 1.7; font-style: italic; margin-bottom: 12px; }
 .auth-testimonial-author { font-size: 13px; color: rgba(255,255,255,0.4); font-weight: 600; }
-
-.auth-right {
-  background: var(--cream);
-  padding: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+.auth-right { background: var(--cream); padding: 60px; display: flex; align-items: center; justify-content: center; }
 .auth-box { width: 100%; max-width: 400px; }
 .auth-box h3 { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
-.auth-box p { color: var(--muted); font-size: 15px; margin-bottom: 32px; }
+.auth-box > p { color: var(--muted); font-size: 15px; margin-bottom: 32px; }
 .auth-tabs { display: flex; gap: 4px; background: var(--cream-dark); border-radius: 12px; padding: 4px; margin-bottom: 28px; }
 .auth-tab { flex: 1; padding: 10px; border-radius: 8px; border: none; background: none; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; color: var(--muted); }
 .auth-tab.active { background: white; color: var(--navy); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
-
 .form-group { margin-bottom: 16px; }
 .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
-.form-group input {
-  width: 100%; padding: 13px 16px;
-  border: 1.5px solid rgba(0,0,0,0.1);
-  border-radius: 12px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 15px;
-  background: white;
-  transition: border-color 0.2s;
-  outline: none;
-}
+.form-group input { width: 100%; padding: 13px 16px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; background: white; transition: border-color 0.2s; outline: none; }
 .form-group input:focus { border-color: var(--coral); }
-.btn-auth {
-  width: 100%; padding: 14px;
-  background: var(--coral); color: white;
-  border: none; border-radius: 12px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 15px; font-weight: 700;
-  cursor: pointer; transition: all 0.2s;
-  margin-top: 8px;
-}
+.btn-auth { width: 100%; padding: 14px; background: var(--coral); color: white; border: none; border-radius: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; margin-top: 8px; }
 .btn-auth:hover { background: #e04d30; transform: translateY(-1px); }
-.btn-google {
-  width: 100%; padding: 13px;
-  background: white; color: var(--text);
-  border: 1.5px solid rgba(0,0,0,0.1);
-  border-radius: 12px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 14px; font-weight: 600;
-  cursor: pointer; transition: all 0.2s;
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  margin-bottom: 16px;
-}
-.btn-google:hover { border-color: var(--coral); }
-.auth-divider { text-align: center; color: var(--muted); font-size: 13px; margin: 16px 0; position: relative; }
-.auth-divider::before, .auth-divider::after { content: ''; position: absolute; top: 50%; width: 42%; height: 1px; background: rgba(0,0,0,0.1); }
-.auth-divider::before { left: 0; }
-.auth-divider::after { right: 0; }
 .auth-guarantee { text-align: center; font-size: 12px; color: var(--muted); margin-top: 20px; }
 .auth-error { background: #FEE2E2; border: 1px solid #FCA5A5; color: #DC2626; padding: 10px 14px; border-radius: 10px; font-size: 13px; margin-bottom: 16px; display: none; }
 .auth-success { background: #D1FAE5; border: 1px solid #6EE7B7; color: #065F46; padding: 10px 14px; border-radius: 10px; font-size: 13px; margin-bottom: 16px; display: none; }
 
-/* ── ONBOARDING ── */
-#onboardingScreen {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  display: none;
-}
-.onboarding-box {
-  background: white;
-  border-radius: 24px;
-  padding: 48px;
-  width: 100%;
-  max-width: 560px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.08);
-}
-.ob-progress { display: flex; gap: 6px; margin-bottom: 36px; }
+/* ONBOARDING */
+#onboardingScreen { min-height: 100vh; display: none; align-items: flex-start; justify-content: center; padding: 40px 20px; background: var(--cream); overflow-y: auto; }
+.onboarding-box { background: white; border-radius: 24px; padding: 48px; width: 100%; max-width: 580px; box-shadow: 0 20px 60px rgba(0,0,0,0.08); margin: auto; }
+.ob-progress { display: flex; gap: 5px; margin-bottom: 32px; }
 .ob-step-dot { flex: 1; height: 4px; border-radius: 2px; background: var(--cream-dark); transition: background 0.3s; }
 .ob-step-dot.active { background: var(--coral); }
 .ob-step-dot.done { background: var(--green); }
 .ob-step { display: none; }
 .ob-step.active { display: block; }
 .ob-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--coral); margin-bottom: 8px; }
-.ob-title { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
-.ob-sub { font-size: 15px; color: var(--muted); margin-bottom: 28px; line-height: 1.6; }
-.ob-input { width: 100%; padding: 14px 16px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; outline: none; transition: border-color 0.2s; margin-bottom: 12px; }
+.ob-title { font-family: 'Fraunces', serif; font-size: 26px; font-weight: 700; color: var(--navy); margin-bottom: 8px; line-height: 1.2; }
+.ob-sub { font-size: 14px; color: var(--muted); margin-bottom: 20px; line-height: 1.6; }
+.ob-field-label { font-size: 12px; font-weight: 600; color: var(--navy); margin-bottom: 5px; margin-top: 14px; display: block; }
+.ob-input { width: 100%; padding: 12px 16px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s; }
 .ob-input:focus { border-color: var(--coral); }
-.ob-textarea { width: 100%; padding: 14px 16px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; outline: none; transition: border-color 0.2s; resize: vertical; min-height: 100px; margin-bottom: 12px; }
+.ob-textarea { width: 100%; padding: 12px 16px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s; resize: vertical; min-height: 85px; line-height: 1.6; }
 .ob-textarea:focus { border-color: var(--coral); }
-.tone-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
-.tone-btn { padding: 12px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 12px; background: white; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center; }
-.tone-btn:hover, .tone-btn.selected { border-color: var(--coral); background: rgba(255,92,58,0.05); color: var(--coral); }
-.platform-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
-.platform-btn { padding: 12px 16px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 12px; background: white; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
-.platform-btn:hover, .platform-btn.selected { border-color: var(--coral); background: rgba(255,92,58,0.05); color: var(--coral); }
-.ob-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 8px; }
-.btn-ob-next { background: var(--coral); color: white; border: none; padding: 14px 32px; border-radius: 100px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.tone-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 8px 0 4px; }
+.tone-btn { padding: 10px 8px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 10px; background: white; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; text-align: center; line-height: 1.4; }
+.tone-btn:hover { border-color: var(--coral); }
+.tone-btn.selected { border-color: var(--coral); background: rgba(255,92,58,0.08); color: var(--coral); }
+.platform-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 8px 0 4px; }
+.platform-btn { padding: 11px 14px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 12px; background: white; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+.platform-btn.selected { border-color: var(--coral); background: rgba(255,92,58,0.05); color: var(--coral); }
+.goal-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 8px 0 4px; }
+.goal-btn { padding: 14px 12px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 12px; background: white; font-family: 'Plus Jakarta Sans', sans-serif; cursor: pointer; transition: all 0.2s; text-align: left; display: flex; flex-direction: column; gap: 3px; }
+.goal-btn .g-icon { font-size: 18px; }
+.goal-btn .g-label { font-size: 12px; font-weight: 700; color: var(--navy); }
+.goal-btn .g-desc { font-size: 11px; color: var(--muted); }
+.goal-btn.selected { border-color: var(--coral); background: rgba(255,92,58,0.05); }
+.goal-btn.selected .g-label { color: var(--coral); }
+.ob-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 20px; }
+.ob-nav-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.btn-ob-next { background: var(--coral); color: white; border: none; padding: 13px 28px; border-radius: 100px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
 .btn-ob-next:hover { background: #e04d30; transform: translateY(-1px); }
-.btn-ob-back { background: none; border: none; color: var(--muted); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; cursor: pointer; }
+.btn-ob-back { background: none; border: none; color: var(--muted); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; cursor: pointer; padding: 8px 0; }
+.btn-ob-skip { background: none; border: none; color: var(--muted); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 12px; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; opacity: 0.7; transition: opacity 0.2s; }
+.btn-ob-skip:hover { opacity: 1; color: var(--navy); }
 
-/* Building DNA loading */
+/* DNA loading */
 #dnaLoading { display: none; text-align: center; padding: 40px 0; }
 .dna-spinner { width: 60px; height: 60px; border: 3px solid var(--cream-dark); border-top-color: var(--coral); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .dna-title { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
 .dna-sub { color: var(--muted); font-size: 14px; }
 
-/* ── MAIN APP ── */
+/* MAIN APP */
 #appScreen { display: none; min-height: 100vh; }
 .app-layout { display: flex; min-height: 100vh; }
-
-/* Sidebar */
-.sidebar {
-  width: var(--sidebar-w);
-  background: var(--navy);
-  display: flex;
-  flex-direction: column;
-  padding: 28px 20px;
-  position: fixed;
-  top: 0; left: 0; bottom: 0;
-  z-index: 50;
-}
+.sidebar { width: var(--sidebar-w); background: var(--navy); display: flex; flex-direction: column; padding: 28px 20px; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50; }
 .sidebar-logo { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 700; color: white; margin-bottom: 36px; padding: 0 8px; }
 .sidebar-logo span { color: var(--coral); }
 .sidebar-nav { flex: 1; display: flex; flex-direction: column; gap: 4px; }
-.nav-item { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border-radius: 10px; color: rgba(255,255,255,0.5); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; text-decoration: none; border: none; background: none; font-family: 'Plus Jakarta Sans', sans-serif; width: 100%; text-align: left; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border-radius: 10px; color: rgba(255,255,255,0.5); font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; border: none; background: none; font-family: 'Plus Jakarta Sans', sans-serif; width: 100%; text-align: left; }
 .nav-item:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.8); }
 .nav-item.active { background: rgba(255,92,58,0.15); color: var(--coral); }
 .nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
@@ -193,26 +113,16 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); c
 .sidebar-plan-name { font-size: 14px; font-weight: 700; color: white; }
 .btn-signout { width: 100%; padding: 10px; background: none; border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: rgba(255,255,255,0.4); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.2s; }
 .btn-signout:hover { border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.7); }
-
-/* Main content */
 .main-content { margin-left: var(--sidebar-w); flex: 1; padding: 40px; max-width: calc(100vw - var(--sidebar-w)); }
 .topbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; }
 .topbar-greeting h2 { font-family: 'Fraunces', serif; font-size: 28px; font-weight: 700; color: var(--navy); }
 .topbar-greeting p { color: var(--muted); font-size: 14px; margin-top: 4px; }
 .topbar-biz { background: white; border: 1px solid rgba(0,0,0,0.06); border-radius: 12px; padding: 10px 16px; display: flex; align-items: center; gap: 10px; }
-.topbar-biz-avatar { width: 32px; height: 32px; background: linear-gradient(135deg, var(--coral), #FF8C6B); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+.topbar-biz-avatar { width: 32px; height: 32px; background: linear-gradient(135deg, var(--coral), #FF8C6B); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; color: white; }
 .topbar-biz-name { font-size: 13px; font-weight: 700; color: var(--navy); }
-
-/* Generate panel */
-.generate-panel {
-  background: white;
-  border-radius: 20px;
-  padding: 28px;
-  margin-bottom: 32px;
-  border: 1px solid rgba(0,0,0,0.05);
-}
+.generate-panel { background: white; border-radius: 20px; padding: 28px; margin-bottom: 32px; border: 1px solid rgba(0,0,0,0.05); }
 .generate-panel h3 { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
-.generate-panel p { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+.generate-panel > p { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
 .generate-row { display: flex; gap: 12px; align-items: flex-start; }
 .generate-input { flex: 1; padding: 13px 16px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 12px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; outline: none; transition: border-color 0.2s; }
 .generate-input:focus { border-color: var(--coral); }
@@ -222,23 +132,9 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); c
 .platform-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
 .platform-pill { padding: 6px 14px; border-radius: 100px; border: 1.5px solid rgba(0,0,0,0.1); background: white; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
 .platform-pill.active { background: var(--navy); color: white; border-color: var(--navy); }
-
-/* Content feed */
 .feed-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
 .feed-header h3 { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; color: var(--navy); }
-.feed-tabs { display: flex; gap: 4px; background: var(--cream-dark); border-radius: 10px; padding: 3px; }
-.feed-tab { padding: 7px 16px; border-radius: 7px; border: none; background: none; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; color: var(--muted); transition: all 0.2s; }
-.feed-tab.active { background: white; color: var(--navy); box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
-
-/* Content cards */
-.content-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-.content-card {
-  background: white;
-  border-radius: 16px;
-  padding: 24px;
-  border: 1px solid rgba(0,0,0,0.05);
-  transition: all 0.2s;
-}
+.content-card { background: white; border-radius: 16px; padding: 24px; border: 1px solid rgba(0,0,0,0.05); transition: all 0.2s; }
 .content-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.06); transform: translateY(-2px); }
 .card-platform { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
 .card-platform-badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 6px; }
@@ -262,40 +158,41 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); c
 .btn-card-save { background: var(--cream-dark); color: var(--text); }
 .btn-card-save:hover { background: #e8dfd0; }
 .btn-card-saved { background: var(--green); color: white; }
-
-/* Skeleton cards */
 .skeleton-card { background: white; border-radius: 16px; padding: 24px; border: 1px solid rgba(0,0,0,0.05); }
 .skeleton-line { height: 12px; background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 6px; margin-bottom: 10px; }
 @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 .skeleton-line.short { width: 40%; }
 .skeleton-line.medium { width: 70%; }
-
-/* Empty state */
 .empty-state { text-align: center; padding: 60px 20px; }
 .empty-icon { font-size: 48px; margin-bottom: 16px; }
 .empty-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 8px; }
 .empty-sub { color: var(--muted); font-size: 14px; }
-
-/* Toast */
-.toast {
-  position: fixed; bottom: 30px; right: 30px;
-  background: var(--navy); color: white;
-  padding: 14px 20px; border-radius: 12px;
-  font-size: 14px; font-weight: 500;
-  transform: translateY(100px); opacity: 0;
-  transition: all 0.3s;
-  z-index: 1000;
-}
+.toast { position: fixed; bottom: 30px; right: 30px; background: var(--navy); color: white; padding: 14px 20px; border-radius: 12px; font-size: 14px; font-weight: 500; transform: translateY(100px); opacity: 0; transition: all 0.3s; z-index: 1000; }
 .toast.show { transform: translateY(0); opacity: 1; }
-
-/* Screens */
 .screen { display: none; }
 .screen.active { display: block; }
+
+/* Brand DNA display & edit */
+.dna-section { background: var(--cream); border-radius: 12px; padding: 16px 18px; margin-bottom: 10px; }
+.dna-section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px; }
+.dna-section-value { font-size: 14px; color: var(--text); line-height: 1.6; }
+.dna-edit-input { width: 100%; padding: 10px 14px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 10px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; outline: none; background: white; transition: border-color 0.2s; }
+.dna-edit-input:focus { border-color: var(--coral); }
+.dna-edit-textarea { width: 100%; padding: 10px 14px; border: 1.5px solid rgba(0,0,0,0.1); border-radius: 10px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 14px; outline: none; background: white; transition: border-color 0.2s; resize: vertical; min-height: 80px; line-height: 1.6; }
+.dna-edit-textarea:focus { border-color: var(--coral); }
+.btn-dna-edit { background: var(--coral); color: white; border: none; padding: 10px 24px; border-radius: 100px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+.btn-dna-edit:hover { background: #e04d30; }
+.btn-dna-cancel { background: none; border: 1.5px solid rgba(0,0,0,0.12); color: var(--muted); padding: 10px 20px; border-radius: 100px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-left: 8px; }
+.btn-dna-cancel:hover { border-color: var(--coral); color: var(--coral); }
+.tone-tag { display: inline-block; background: rgba(255,92,58,0.1); color: var(--coral); padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin: 2px; }
+.goal-tag { display: inline-block; background: rgba(15,27,45,0.07); color: var(--navy); padding: 3px 10px; border-radius: 100px; font-size: 12px; font-weight: 600; margin: 2px; }
+
+/* PRICING */
+#pricingScreen { display: none; min-height: 100vh; background: var(--cream); padding: 60px 40px; }
 
 @media (max-width: 768px) {
   #authScreen { grid-template-columns: 1fr; }
   .auth-left { display: none; }
-  .content-grid { grid-template-columns: 1fr; }
   .sidebar { transform: translateX(-100%); }
   .main-content { margin-left: 0; }
 }
@@ -320,57 +217,49 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); c
     <div class="auth-box">
       <h3>Welcome to BrandFlow</h3>
       <p>Sign in or create your account below</p>
-
       <div class="auth-tabs">
         <button class="auth-tab active" onclick="switchAuthTab('login')">Sign in</button>
         <button class="auth-tab" onclick="switchAuthTab('signup')">Create account</button>
       </div>
-
       <div id="authError" class="auth-error"></div>
       <div id="authSuccess" class="auth-success"></div>
-
-
-      <!-- Login form -->
       <div id="loginForm">
         <div class="form-group">
           <label>Email address</label>
           <input type="email" id="loginEmail" placeholder="you@example.com">
         </div>
-      <div class="form-group">
-  <label>Password</label>
-  <div style="position:relative;">
-    <input type="password" id="loginPassword" placeholder="••••••••" style="width:100%;padding-right:44px;">
-    <button type="button" onclick="togglePassword('loginPassword', this)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#6B7280;">👁</button>
-  </div>
-</div>
-<div style="text-align:right;margin-bottom:12px;">
-  <a href="#" onclick="resetPassword()" style="font-size:13px;color:var(--coral);text-decoration:none;">Forgot password?</a>
-</div>
-<button class="btn-auth" onclick="signIn()">Sign in →</button>
+        <div class="form-group">
+          <label>Password</label>
+          <div style="position:relative;">
+            <input type="password" id="loginPassword" placeholder="••••••••" style="width:100%;padding-right:44px;">
+            <button type="button" onclick="togglePassword('loginPassword',this)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#6B7280;">👁</button>
+          </div>
+        </div>
+        <div style="text-align:right;margin-bottom:12px;">
+          <a href="#" onclick="resetPassword()" style="font-size:13px;color:var(--coral);text-decoration:none;">Forgot password?</a>
+        </div>
+        <button class="btn-auth" onclick="signIn()">Sign in →</button>
       </div>
-
-      <!-- Signup form -->
       <div id="signupForm" style="display:none;">
         <div class="form-group">
           <label>Email address</label>
           <input type="email" id="signupEmail" placeholder="you@example.com">
         </div>
-      <div class="form-group">
-  <label>Password</label>
-  <div style="position:relative;">
-    <input type="password" id="signupPassword" placeholder="At least 8 characters" style="width:100%;padding-right:44px;">
-    <button type="button" onclick="togglePassword('signupPassword', this)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#6B7280;">👁</button>
-  </div>
-</div>
+        <div class="form-group">
+          <label>Password</label>
+          <div style="position:relative;">
+            <input type="password" id="signupPassword" placeholder="At least 8 characters" style="width:100%;padding-right:44px;">
+            <button type="button" onclick="togglePassword('signupPassword',this)" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:#6B7280;">👁</button>
+          </div>
+        </div>
         <button class="btn-auth" onclick="signUp()">Create account →</button>
       </div>
-
       <p class="auth-guarantee">🔒 14-day money-back guarantee · No questions asked</p>
     </div>
   </div>
 </div>
 
-<!-- ONBOARDING SCREEN -->
+<!-- ONBOARDING -->
 <div id="onboardingScreen">
   <div class="onboarding-box">
     <div class="ob-progress">
@@ -379,80 +268,179 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); c
       <div class="ob-step-dot" id="dot3"></div>
       <div class="ob-step-dot" id="dot4"></div>
       <div class="ob-step-dot" id="dot5"></div>
+      <div class="ob-step-dot" id="dot6"></div>
+      <div class="ob-step-dot" id="dot7"></div>
+      <div class="ob-step-dot" id="dot8"></div>
     </div>
 
-    <!-- Step 1 -->
+    <!-- Step 1: Business basics (required) -->
     <div class="ob-step active" id="obStep1">
-      <div class="ob-label">Step 1 of 5</div>
+      <div class="ob-label">Step 1 of 8</div>
       <div class="ob-title">What's your business called?</div>
-      <div class="ob-sub">This is how BrandFlow will refer to your business in all generated content.</div>
+      <div class="ob-sub">This is how BrandFlow will refer to you in all generated content.</div>
       <input class="ob-input" type="text" id="obBizName" placeholder="e.g. The Corner Café">
+      <label class="ob-field-label">Industry / type of business</label>
+      <input class="ob-input" type="text" id="obIndustry" placeholder="e.g. Café, Boutique, Beauty salon, Plumber...">
       <div class="ob-nav">
         <button class="btn-ob-back" onclick="showAuth()">← Back to login</button>
         <button class="btn-ob-next" onclick="obNext(1)">Continue →</button>
       </div>
     </div>
 
-    <!-- Step 2 -->
+    <!-- Step 2: What you do (required) -->
     <div class="ob-step" id="obStep2">
-      <div class="ob-label">Step 2 of 5</div>
-      <div class="ob-title">What do you do?</div>
-      <div class="ob-sub">Describe what your business sells or offers. The more detail, the better your content.</div>
-      <textarea class="ob-textarea" id="obBizDesc" placeholder="e.g. We're a cosy neighbourhood café in Fitzroy serving hand-roasted specialty coffee, house-made pastries, and all-day brunch. Known for our flat whites and relaxed vibe."></textarea>
+      <div class="ob-label">Step 2 of 8</div>
+      <div class="ob-title">What do you offer?</div>
+      <div class="ob-sub">Describe your products or services. The more specific you are, the better your content will be.</div>
+      <textarea class="ob-textarea" id="obBizDesc" placeholder="e.g. We're a cosy neighbourhood café in Fitzroy serving hand-roasted specialty coffee, house-made pastries, and all-day brunch. Known for our flat whites and relaxed community vibe."></textarea>
+      <label class="ob-field-label">Your location (suburb + city)</label>
+      <input class="ob-input" id="obLocation" placeholder="e.g. Fitzroy, Melbourne">
       <div class="ob-nav">
         <button class="btn-ob-back" onclick="obBack(2)">← Back</button>
         <button class="btn-ob-next" onclick="obNext(2)">Continue →</button>
       </div>
     </div>
 
-    <!-- Step 3 -->
+    <!-- Step 3: Target audience (skippable) -->
     <div class="ob-step" id="obStep3">
-      <div class="ob-label">Step 3 of 5</div>
+      <div class="ob-label">Step 3 of 8</div>
       <div class="ob-title">Who are your customers?</div>
-      <div class="ob-sub">Describe your ideal customer — who they are, what they care about, why they come to you.</div>
-      <textarea class="ob-textarea" id="obAudience" placeholder="e.g. Local residents aged 25-45, young professionals and families, people who value quality over price and want a welcoming local spot to work or catch up with friends."></textarea>
-      <input class="ob-input" id="obLocation" placeholder="Your suburb / city (e.g. Fitzroy, Melbourne)">
+      <div class="ob-sub">Describe your ideal customer — who they are, what they care about, and why they choose you.</div>
+      <textarea class="ob-textarea" id="obAudience" placeholder="e.g. Local residents aged 25–45, young professionals and families who value quality over price. They want a welcoming local spot to work or catch up with friends."></textarea>
+      <label class="ob-field-label">What problem do you solve for them? (optional)</label>
+      <textarea class="ob-textarea" id="obProblem" placeholder="e.g. They're tired of generic chain cafés. They want somewhere that feels like a second home — great food, reliable wifi, staff who remember their name." style="min-height:70px;"></textarea>
       <div class="ob-nav">
         <button class="btn-ob-back" onclick="obBack(3)">← Back</button>
-        <button class="btn-ob-next" onclick="obNext(3)">Continue →</button>
+        <div class="ob-nav-right">
+          <button class="btn-ob-next" onclick="obNext(3)">Continue →</button>
+          <button class="btn-ob-skip" onclick="obSkip(3)">Skip, I'll fill this in later</button>
+        </div>
       </div>
     </div>
 
-    <!-- Step 4 -->
+    <!-- Step 4: Competitors & differentiation (skippable) -->
     <div class="ob-step" id="obStep4">
-      <div class="ob-label">Step 4 of 5</div>
-      <div class="ob-title">What's your brand voice?</div>
-      <div class="ob-sub">Pick the tone that feels most like your business.</div>
-      <div class="tone-grid">
-        <button class="tone-btn" onclick="selectTone(this, 'friendly & warm')">😊 Friendly & warm</button>
-        <button class="tone-btn" onclick="selectTone(this, 'professional & trustworthy')">💼 Professional</button>
-        <button class="tone-btn" onclick="selectTone(this, 'fun & playful')">🎉 Fun & playful</button>
-        <button class="tone-btn" onclick="selectTone(this, 'bold & confident')">💪 Bold & confident</button>
-        <button class="tone-btn" onclick="selectTone(this, 'premium & sophisticated')">✨ Premium</button>
-        <button class="tone-btn" onclick="selectTone(this, 'casual & conversational')">💬 Casual</button>
-      </div>
+      <div class="ob-label">Step 4 of 8</div>
+      <div class="ob-title">What makes you different?</div>
+      <div class="ob-sub">This helps BrandFlow write content that stands out — not generic filler that could apply to anyone.</div>
+      <label class="ob-field-label">Who are your main competitors?</label>
+      <input class="ob-input" id="obCompetitors" placeholder="e.g. Other cafés on Smith St, chain coffee shops like Gloria Jeans">
+      <label class="ob-field-label">What do you do better than them?</label>
+      <textarea class="ob-textarea" id="obDiff" placeholder="e.g. We source single-origin beans direct from farmers, offer proper all-day brunch (not just toast), and our space is designed for working — great wifi, plenty of power points, no time pressure."></textarea>
       <div class="ob-nav">
         <button class="btn-ob-back" onclick="obBack(4)">← Back</button>
-        <button class="btn-ob-next" onclick="obNext(4)">Continue →</button>
+        <div class="ob-nav-right">
+          <button class="btn-ob-next" onclick="obNext(4)">Continue →</button>
+          <button class="btn-ob-skip" onclick="obSkip(4)">Skip, I'll fill this in later</button>
+        </div>
       </div>
     </div>
 
-    <!-- Step 5 -->
+    <!-- Step 5: Pricing & promotions (skippable) -->
     <div class="ob-step" id="obStep5">
-      <div class="ob-label">Step 5 of 5</div>
-      <div class="ob-title">Which platforms do you use?</div>
-      <div class="ob-sub">Select all that apply — BrandFlow will generate content for these.</div>
-      <div class="platform-grid">
-        <button class="platform-btn" onclick="togglePlatform(this, 'Facebook')">📘 Facebook</button>
-        <button class="platform-btn" onclick="togglePlatform(this, 'Instagram')">📸 Instagram</button>
-        <button class="platform-btn" onclick="togglePlatform(this, 'Email')">📧 Email</button>
-        <button class="platform-btn" onclick="togglePlatform(this, 'LinkedIn')">💼 LinkedIn</button>
-        <button class="platform-btn" onclick="togglePlatform(this, 'Twitter')">🐦 Twitter / X</button>
-        <button class="platform-btn" onclick="togglePlatform(this, 'TikTok')">🎵 TikTok</button>
+      <div class="ob-label">Step 5 of 8</div>
+      <div class="ob-title">Pricing & promotions</div>
+      <div class="ob-sub">Helps BrandFlow write accurate content around your offers and pricing style.</div>
+      <label class="ob-field-label">How would you describe your pricing?</label>
+      <div class="tone-grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:16px;">
+        <button class="tone-btn" onclick="selectSingle(this,'obPricingStyle','budget-friendly')">💚 Budget-friendly</button>
+        <button class="tone-btn" onclick="selectSingle(this,'obPricingStyle','mid-range')">👌 Mid-range</button>
+        <button class="tone-btn" onclick="selectSingle(this,'obPricingStyle','premium')">✨ Premium</button>
       </div>
+      <input type="hidden" id="obPricingStyle" value="">
+      <label class="ob-field-label">Any regular promotions or offers?</label>
+      <textarea class="ob-textarea" id="obPromos" placeholder="e.g. Happy hour Mon–Fri 3–5pm (50% off cakes). Loyalty card — buy 9 coffees get 1 free. Monthly rotating seasonal specials." style="min-height:70px;"></textarea>
       <div class="ob-nav">
         <button class="btn-ob-back" onclick="obBack(5)">← Back</button>
-        <button class="btn-ob-next" onclick="finishOnboarding()">Build my Brand DNA ✨</button>
+        <div class="ob-nav-right">
+          <button class="btn-ob-next" onclick="obNext(5)">Continue →</button>
+          <button class="btn-ob-skip" onclick="obSkip(5)">Skip, I'll fill this in later</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 6: Content goals (skippable) -->
+    <div class="ob-step" id="obStep6">
+      <div class="ob-label">Step 6 of 8</div>
+      <div class="ob-title">What do you want content to achieve?</div>
+      <div class="ob-sub">Select all that apply — BrandFlow will weight your content toward these goals.</div>
+      <div class="goal-grid">
+        <button class="goal-btn" onclick="toggleGoal(this,'Drive sales & bookings')">
+          <span class="g-icon">💰</span><span class="g-label">Drive sales & bookings</span><span class="g-desc">Convert followers into customers</span>
+        </button>
+        <button class="goal-btn" onclick="toggleGoal(this,'Build brand awareness')">
+          <span class="g-icon">📣</span><span class="g-label">Build brand awareness</span><span class="g-desc">Get more people to know you</span>
+        </button>
+        <button class="goal-btn" onclick="toggleGoal(this,'Grow engagement')">
+          <span class="g-icon">❤️</span><span class="g-label">Grow engagement</span><span class="g-desc">More likes, comments, shares</span>
+        </button>
+        <button class="goal-btn" onclick="toggleGoal(this,'Build community & loyalty')">
+          <span class="g-icon">🤝</span><span class="g-label">Build community</span><span class="g-desc">Turn customers into regulars</span>
+        </button>
+        <button class="goal-btn" onclick="toggleGoal(this,'Promote offers & events')">
+          <span class="g-icon">🎉</span><span class="g-label">Promote offers & events</span><span class="g-desc">Announce specials and news</span>
+        </button>
+        <button class="goal-btn" onclick="toggleGoal(this,'Establish expertise & trust')">
+          <span class="g-icon">🏆</span><span class="g-label">Establish expertise</span><span class="g-desc">Position as the go-to choice</span>
+        </button>
+      </div>
+      <div class="ob-nav">
+        <button class="btn-ob-back" onclick="obBack(6)">← Back</button>
+        <div class="ob-nav-right">
+          <button class="btn-ob-next" onclick="obNext(6)">Continue →</button>
+          <button class="btn-ob-skip" onclick="obSkip(6)">Skip, I'll fill this in later</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 7: Brand voice (required, multi-select) -->
+    <div class="ob-step" id="obStep7">
+      <div class="ob-label">Step 7 of 8</div>
+      <div class="ob-title">What's your brand voice?</div>
+      <div class="ob-sub">Pick all tones that feel right for your business — you can choose more than one.</div>
+      <div class="tone-grid">
+        <button class="tone-btn" onclick="toggleTone(this,'friendly & warm')">😊 Friendly &amp; warm</button>
+        <button class="tone-btn" onclick="toggleTone(this,'professional & trustworthy')">💼 Professional</button>
+        <button class="tone-btn" onclick="toggleTone(this,'fun & playful')">🎉 Fun &amp; playful</button>
+        <button class="tone-btn" onclick="toggleTone(this,'bold & confident')">💪 Bold &amp; confident</button>
+        <button class="tone-btn" onclick="toggleTone(this,'premium & sophisticated')">✨ Premium</button>
+        <button class="tone-btn" onclick="toggleTone(this,'casual & conversational')">💬 Casual</button>
+        <button class="tone-btn" onclick="toggleTone(this,'inspirational & motivating')">🌟 Inspirational</button>
+        <button class="tone-btn" onclick="toggleTone(this,'educational & informative')">📚 Educational</button>
+        <button class="tone-btn" onclick="toggleTone(this,'witty & humorous')">😄 Witty</button>
+      </div>
+      <label class="ob-field-label">Anything your content should NEVER sound like? (optional)</label>
+      <input class="ob-input" id="obVoiceAvoid" placeholder="e.g. Overly corporate, aggressive sales language, too casual / slang">
+      <div class="ob-nav">
+        <button class="btn-ob-back" onclick="obBack(7)">← Back</button>
+        <button class="btn-ob-next" onclick="obNext(7)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 8: Do's, don'ts & platforms (skippable) -->
+    <div class="ob-step" id="obStep8">
+      <div class="ob-label">Step 8 of 8</div>
+      <div class="ob-title">Final details</div>
+      <div class="ob-sub">Almost there! A few more things to make your content perfectly on-brand.</div>
+      <label class="ob-field-label">Brand do's — things to always include or emphasise</label>
+      <textarea class="ob-textarea" id="obDos" placeholder="e.g. Always mention our location, use 'we', reference the community feel, include a call to action, mention our loyalty program." style="min-height:70px;"></textarea>
+      <label class="ob-field-label">Brand don'ts — things to never say or do</label>
+      <textarea class="ob-textarea" id="obDonts" placeholder="e.g. Never make health claims, avoid aggressive sales language, don't mention competitor names, never use 'cheap' — say 'great value' instead." style="min-height:70px;"></textarea>
+      <label class="ob-field-label" style="margin-bottom:8px;">Which platforms do you post on?</label>
+      <div class="platform-grid">
+        <button class="platform-btn" onclick="togglePlatform(this,'Facebook')">📘 Facebook</button>
+        <button class="platform-btn" onclick="togglePlatform(this,'Instagram')">📸 Instagram</button>
+        <button class="platform-btn" onclick="togglePlatform(this,'Email')">📧 Email</button>
+        <button class="platform-btn" onclick="togglePlatform(this,'LinkedIn')">💼 LinkedIn</button>
+        <button class="platform-btn" onclick="togglePlatform(this,'Twitter')">🐦 Twitter / X</button>
+        <button class="platform-btn" onclick="togglePlatform(this,'TikTok')">🎵 TikTok</button>
+      </div>
+      <div class="ob-nav">
+        <button class="btn-ob-back" onclick="obBack(8)">← Back</button>
+        <div class="ob-nav-right">
+          <button class="btn-ob-next" onclick="finishOnboarding()">Build my Brand DNA ✨</button>
+          <button class="btn-ob-skip" onclick="obSkip(8)">Skip, I'll fill this in later</button>
+        </div>
       </div>
     </div>
 
@@ -460,85 +448,73 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); c
     <div id="dnaLoading">
       <div class="dna-spinner"></div>
       <div class="dna-title">Building your Brand DNA...</div>
-      <div class="dna-sub">Analysing your business and setting up your content engine</div>
+      <div class="dna-sub">Analysing your business and crafting your content engine</div>
     </div>
   </div>
 </div>
 
 <!-- PRICING SCREEN -->
-<div id="pricingScreen" style="display:none;min-height:100vh;background:var(--cream);padding:60px 40px;">
+<div id="pricingScreen">
   <div style="max-width:900px;margin:0 auto;">
     <div style="text-align:center;margin-bottom:48px;">
       <div style="font-family:'Fraunces',serif;font-size:32px;font-weight:700;color:var(--navy);margin-bottom:12px;">Choose your plan</div>
       <p style="color:var(--muted);font-size:16px;">14-day money-back guarantee — no questions asked</p>
     </div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:start;">
-      <!-- Starter -->
       <div style="background:white;border-radius:24px;padding:32px;border:1.5px solid rgba(0,0,0,0.06);">
         <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--coral);margin-bottom:12px;">Starter</div>
         <div style="font-family:'Fraunces',serif;font-size:48px;font-weight:700;color:var(--navy);line-height:1;">$19</div>
         <div style="font-size:13px;color:var(--muted);margin-bottom:24px;">per month</div>
         <ul style="list-style:none;margin-bottom:28px;">
-          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;align-items:center;"><span style="color:var(--green);font-weight:700;">✓</span> 1 brand profile</li>
-          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;align-items:center;"><span style="color:var(--green);font-weight:700;">✓</span> 50 generations/month</li>
-          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;align-items:center;"><span style="color:var(--green);font-weight:700;">✓</span> Facebook, Instagram, Email</li>
-          <li style="font-size:14px;padding:7px 0;display:flex;gap:8px;align-items:center;"><span style="color:var(--green);font-weight:700;">✓</span> Email support</li>
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;"><span style="color:var(--green);font-weight:700;">✓</span> 1 brand profile</li>
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;"><span style="color:var(--green);font-weight:700;">✓</span> 50 generations/month</li>
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;"><span style="color:var(--green);font-weight:700;">✓</span> Facebook, Instagram, Email</li>
+          <li style="font-size:14px;padding:7px 0;display:flex;gap:8px;"><span style="color:var(--green);font-weight:700;">✓</span> Email support</li>
         </ul>
-        <a href="https://buy.stripe.com/test_fZu4gy3aobAtayJbfC9AA01" style="display:block;text-align:center;padding:13px;border-radius:100px;border:2px solid rgba(0,0,0,0.12);color:var(--navy);font-weight:700;font-size:14px;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--coral)';this.style.color='var(--coral)'" onmouseout="this.style.borderColor='rgba(0,0,0,0.12)';this.style.color='var(--navy)'">Get started →</a>
+        <a href="https://buy.stripe.com/test_fZu4gy3aobAtayJbfC9AA01" style="display:block;text-align:center;padding:13px;border-radius:100px;border:2px solid rgba(0,0,0,0.12);color:var(--navy);font-weight:700;font-size:14px;text-decoration:none;">Get started →</a>
       </div>
-      <!-- Growth -->
       <div style="background:var(--navy);border-radius:24px;padding:32px;position:relative;transform:scale(1.04);">
-        <div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--coral);color:white;font-size:11px;font-weight:700;padding:5px 14px;border-radius:100px;white-space:nowrap;text-transform:uppercase;letter-spacing:0.06em;">Most Popular</div>
+        <div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--coral);color:white;font-size:11px;font-weight:700;padding:5px 14px;border-radius:100px;white-space:nowrap;text-transform:uppercase;">Most Popular</div>
         <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--coral);margin-bottom:12px;">Growth</div>
         <div style="font-family:'Fraunces',serif;font-size:48px;font-weight:700;color:white;line-height:1;">$39</div>
         <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:24px;">per month</div>
         <ul style="list-style:none;margin-bottom:28px;">
-          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;gap:8px;align-items:center;color:rgba(255,255,255,0.75);"><span style="color:var(--green);font-weight:700;">✓</span> 2 brand profiles</li>
-          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;gap:8px;align-items:center;color:rgba(255,255,255,0.75);"><span style="color:var(--green);font-weight:700;">✓</span> Unlimited generations</li>
-          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;gap:8px;align-items:center;color:rgba(255,255,255,0.75);"><span style="color:var(--green);font-weight:700;">✓</span> All 6 platforms</li>
-          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;gap:8px;align-items:center;color:rgba(255,255,255,0.75);"><span style="color:var(--green);font-weight:700;">✓</span> Download content packs</li>
-          <li style="font-size:14px;padding:7px 0;display:flex;gap:8px;align-items:center;color:rgba(255,255,255,0.75);"><span style="color:var(--green);font-weight:700;">✓</span> Priority support</li>
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;gap:8px;color:rgba(255,255,255,0.75);"><span style="color:var(--green);font-weight:700;">✓</span> 2 brand profiles</li>
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;gap:8px;color:rgba(255,255,255,0.75);"><span style="color:var(--green);font-weight:700;">✓</span> Unlimited generations</li>
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;gap:8px;color:rgba(255,255,255,0.75);"><span style="color:var(--green);font-weight:700;">✓</span> All 6 platforms</li>
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;gap:8px;color:rgba(255,255,255,0.75);"><span style="color:var(--green);font-weight:700;">✓</span> Download content packs</li>
+          <li style="font-size:14px;padding:7px 0;display:flex;gap:8px;color:rgba(255,255,255,0.75);"><span style="color:var(--green);font-weight:700;">✓</span> Priority support</li>
         </ul>
-        <a href="https://buy.stripe.com/test_7sY6oG3aodIB22d5Vi9AA02" style="display:block;text-align:center;padding:13px;border-radius:100px;background:var(--coral);color:white;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 8px 24px rgba(255,92,58,0.3);">Get started →</a>
+        <a href="https://buy.stripe.com/test_7sY6oG3aodIB22d5Vi9AA02" style="display:block;text-align:center;padding:13px;border-radius:100px;background:var(--coral);color:white;font-weight:700;font-size:14px;text-decoration:none;">Get started →</a>
       </div>
-      <!-- Agency -->
       <div style="background:white;border-radius:24px;padding:32px;border:1.5px solid rgba(0,0,0,0.06);">
         <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--coral);margin-bottom:12px;">Agency</div>
         <div style="font-family:'Fraunces',serif;font-size:48px;font-weight:700;color:var(--navy);line-height:1;">$79</div>
         <div style="font-size:13px;color:var(--muted);margin-bottom:24px;">per month</div>
         <ul style="list-style:none;margin-bottom:28px;">
-          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;align-items:center;"><span style="color:var(--green);font-weight:700;">✓</span> 5 brand profiles</li>
-          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;align-items:center;"><span style="color:var(--green);font-weight:700;">✓</span> Unlimited generations</li>
-          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;align-items:center;"><span style="color:var(--green);font-weight:700;">✓</span> All 6 platforms</li>
-          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;align-items:center;"><span style="color:var(--green);font-weight:700;">✓</span> White-label exports</li>
-          <li style="font-size:14px;padding:7px 0;display:flex;gap:8px;align-items:center;"><span style="color:var(--green);font-weight:700;">✓</span> Dedicated support</li>
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;"><span style="color:var(--green);font-weight:700;">✓</span> 5 brand profiles</li>
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;"><span style="color:var(--green);font-weight:700;">✓</span> Unlimited generations</li>
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;"><span style="color:var(--green);font-weight:700;">✓</span> All 6 platforms</li>
+          <li style="font-size:14px;padding:7px 0;border-bottom:1px solid rgba(0,0,0,0.05);display:flex;gap:8px;"><span style="color:var(--green);font-weight:700;">✓</span> White-label exports</li>
+          <li style="font-size:14px;padding:7px 0;display:flex;gap:8px;"><span style="color:var(--green);font-weight:700;">✓</span> Dedicated support</li>
         </ul>
-        <a href="https://buy.stripe.com/test_7sY4gy7qEawpeOZ4Re9AA03" style="display:block;text-align:center;padding:13px;border-radius:100px;border:2px solid rgba(0,0,0,0.12);color:var(--navy);font-weight:700;font-size:14px;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--coral)';this.style.color='var(--coral)'" onmouseout="this.style.borderColor='rgba(0,0,0,0.12)';this.style.color='var(--navy)'">Get started →</a>
+        <a href="https://buy.stripe.com/test_7sY4gy7qEawpeOZ4Re9AA03" style="display:block;text-align:center;padding:13px;border-radius:100px;border:2px solid rgba(0,0,0,0.12);color:var(--navy);font-weight:700;font-size:14px;text-decoration:none;">Get started →</a>
       </div>
     </div>
     <p style="text-align:center;margin-top:28px;font-size:13px;color:var(--muted);">🔒 Secure checkout via Stripe · 14-day money-back guarantee · Cancel anytime</p>
   </div>
 </div>
 
-<!-- MAIN APP SCREEN -->
+<!-- MAIN APP -->
 <div id="appScreen">
   <div class="app-layout">
-    <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-logo">Brand<span>Flow</span></div>
       <nav class="sidebar-nav">
-        <button class="nav-item active" onclick="switchTab('generate')">
-          <span class="icon">✨</span> Generate
-        </button>
-        <button class="nav-item" onclick="switchTab('saved')">
-          <span class="icon">💾</span> Saved content
-        </button>
-        <button class="nav-item" onclick="switchTab('brand')">
-          <span class="icon">🧬</span> Brand DNA
-        </button>
-        <button class="nav-item" onclick="switchTab('settings')">
-          <span class="icon">⚙️</span> Settings
-        </button>
+        <button class="nav-item active" onclick="switchTab('generate',event)"><span class="icon">✨</span> Generate</button>
+        <button class="nav-item" onclick="switchTab('saved',event)"><span class="icon">💾</span> Saved content</button>
+        <button class="nav-item" onclick="switchTab('brand',event)"><span class="icon">🧬</span> Brand DNA</button>
+        <button class="nav-item" onclick="switchTab('settings',event)"><span class="icon">⚙️</span> Settings</button>
       </nav>
       <div class="sidebar-bottom">
         <div class="sidebar-plan">
@@ -548,8 +524,6 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); c
         <button class="btn-signout" onclick="signOut()">Sign out</button>
       </div>
     </aside>
-
-    <!-- Main -->
     <main class="main-content">
       <div class="topbar">
         <div class="topbar-greeting">
@@ -557,12 +531,11 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); c
           <p id="greetingSub">Ready to create some great content today?</p>
         </div>
         <div class="topbar-biz">
-          <div class="topbar-biz-avatar" id="bizAvatar">☕</div>
+          <div class="topbar-biz-avatar" id="bizAvatar">B</div>
           <div class="topbar-biz-name" id="bizName">My Business</div>
         </div>
       </div>
 
-      <!-- Generate tab -->
       <div class="screen active" id="generateTab">
         <div class="generate-panel">
           <h3>Generate content</h3>
@@ -573,11 +546,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); c
           </div>
           <div class="platform-pills" id="platformPills"></div>
         </div>
-
-        <div class="feed-header">
-          <h3>Your content</h3>
-        </div>
-
+        <div class="feed-header"><h3>Your content</h3></div>
         <div id="contentFeed">
           <div class="empty-state">
             <div class="empty-icon">✨</div>
@@ -587,11 +556,8 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); c
         </div>
       </div>
 
-      <!-- Saved tab -->
       <div class="screen" id="savedTab">
-        <div class="feed-header">
-          <h3>Saved content</h3>
-        </div>
+        <div class="feed-header"><h3>Saved content</h3></div>
         <div id="savedFeed">
           <div class="empty-state">
             <div class="empty-icon">💾</div>
@@ -601,16 +567,20 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); c
         </div>
       </div>
 
-      <!-- Brand DNA tab -->
       <div class="screen" id="brandTab">
         <div class="generate-panel">
-          <h3>Your Brand DNA 🧬</h3>
-          <p>This is what BrandFlow knows about your business</p>
-          <div id="brandDnaDisplay" style="margin-top:8px;"></div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <h3 style="margin-bottom:0;">Your Brand DNA 🧬</h3>
+            <div id="dnaEditBtns">
+              <button class="btn-dna-edit" onclick="startDnaEdit()">Edit Brand DNA</button>
+            </div>
+          </div>
+          <p>The richer this is, the better and more specific your generated content will be.</p>
+          <div id="brandDnaDisplay" style="margin-top:16px;"></div>
+          <div id="brandDnaEdit" style="display:none;margin-top:16px;"></div>
         </div>
       </div>
 
-      <!-- Settings tab -->
       <div class="screen" id="settingsTab">
         <div class="generate-panel">
           <h3>Account settings</h3>
@@ -625,20 +595,18 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--cream); c
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
 <script>
-// ── SUPABASE INIT ──
 const SUPABASE_URL = 'https://uydmtkoixneorcmrdabp.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5ZG10a29peG5lb3JjbXJkYWJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI0OTcyMDYsImV4cCI6MjA4ODA3MzIwNn0.bqT2jmxLmN6ku6dKVfCoH4sYkaExR0ed1SuS0Pm6etM';
 const { createClient } = supabase;
 const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// ── STATE ──
 let currentUser = null;
 let brandProfile = null;
-let selectedTone = '';
+let selectedTones = [];
+let selectedGoals = [];
 let selectedPlatforms = [];
 let activePlatforms = [];
 let savedItems = [];
@@ -646,31 +614,27 @@ let generatedCards = [];
 
 // ── INIT ──
 window.addEventListener('load', async () => {
+  sb.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_IN' && session) {
+      currentUser = session.user;
+      const profile = localStorage.getItem('brandProfile_' + currentUser.id);
+      if (profile) { brandProfile = JSON.parse(profile); showApp(); }
+      else showOnboarding();
+    }
+    if (event === 'SIGNED_OUT') { currentUser = null; showAuth(); }
+  });
   const { data: { session } } = await sb.auth.getSession();
   if (session) {
     currentUser = session.user;
     const profile = localStorage.getItem('brandProfile_' + currentUser.id);
-    if (profile) {
-      brandProfile = JSON.parse(profile);
-      showApp();
-    } else {
-      showOnboarding();
-    }
+    if (profile) { brandProfile = JSON.parse(profile); showApp(); }
+    else showOnboarding();
   } else {
     showAuth();
   }
-  sb.auth.onAuthStateChange((event, session) => {
-if (event === 'SIGNED_IN' && session) {
-  currentUser = session.user;
-  const profile = localStorage.getItem('brandProfile_' + currentUser.id);
-  if (profile) { brandProfile = JSON.parse(profile); showApp(); }
-  else showOnboarding();
-}
-    if (event === 'SIGNED_OUT') { currentUser = null; showAuth(); }
-  });
 });
 
-// ── SCREEN HELPERS ──
+// ── SCREENS ──
 function showAuth() {
   document.getElementById('authScreen').style.display = 'grid';
   document.getElementById('onboardingScreen').style.display = 'none';
@@ -699,26 +663,14 @@ function showApp() {
 
 // ── AUTH ──
 function switchAuthTab(tab) {
-  document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (i===0 && tab==='login') || (i===1 && tab==='signup')));
-  document.getElementById('loginForm').style.display = tab === 'login' ? 'block' : 'none';
-  document.getElementById('signupForm').style.display = tab === 'signup' ? 'block' : 'none';
+  document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (i===0&&tab==='login')||(i===1&&tab==='signup')));
+  document.getElementById('loginForm').style.display = tab==='login' ? 'block' : 'none';
+  document.getElementById('signupForm').style.display = tab==='signup' ? 'block' : 'none';
   clearAuthMessages();
 }
-
-function showAuthError(msg) {
-  const el = document.getElementById('authError');
-  el.textContent = msg; el.style.display = 'block';
-  document.getElementById('authSuccess').style.display = 'none';
-}
-function showAuthSuccess(msg) {
-  const el = document.getElementById('authSuccess');
-  el.textContent = msg; el.style.display = 'block';
-  document.getElementById('authError').style.display = 'none';
-}
-function clearAuthMessages() {
-  document.getElementById('authError').style.display = 'none';
-  document.getElementById('authSuccess').style.display = 'none';
-}
+function showAuthError(msg) { const el=document.getElementById('authError'); el.textContent=msg; el.style.display='block'; document.getElementById('authSuccess').style.display='none'; }
+function showAuthSuccess(msg) { const el=document.getElementById('authSuccess'); el.textContent=msg; el.style.display='block'; document.getElementById('authError').style.display='none'; }
+function clearAuthMessages() { document.getElementById('authError').style.display='none'; document.getElementById('authSuccess').style.display='none'; }
 
 async function signIn() {
   const email = document.getElementById('loginEmail').value;
@@ -726,16 +678,11 @@ async function signIn() {
   if (!email || !password) return showAuthError('Please enter your email and password.');
   const { error } = await sb.auth.signInWithPassword({ email, password });
   if (error) {
-    if (error.message.includes('Email not confirmed')) {
-      showAuthError('Please check your email and click the confirmation link first.');
-    } else if (error.message.includes('Invalid login credentials')) {
-      showAuthError('Incorrect email or password. Try again or create a new account.');
-    } else {
-      showAuthError(error.message);
-    }
+    if (error.message.includes('Email not confirmed')) showAuthError('Please check your email and click the confirmation link first.');
+    else if (error.message.includes('Invalid login credentials')) showAuthError('Incorrect email or password. Try again or create a new account.');
+    else showAuthError(error.message);
   }
 }
-
 async function signUp() {
   const email = document.getElementById('signupEmail').value;
   const password = document.getElementById('signupPassword').value;
@@ -743,90 +690,102 @@ async function signUp() {
   if (password.length < 8) return showAuthError('Password must be at least 8 characters.');
   const { error } = await sb.auth.signUp({ email, password });
   if (error) showAuthError(error.message);
-  else showAuthSuccess('Account created! Check your email to confirm your address, then come back and sign in to choose your plan.');
+  else showAuthSuccess('Account created! Check your email to confirm your address, then come back and sign in.');
 }
 function togglePassword(fieldId, btn) {
   const input = document.getElementById(fieldId);
-  if (input.type === 'password') {
-    input.type = 'text';
-    btn.textContent = '🙈';
-  } else {
-    input.type = 'password';
-    btn.textContent = '👁';
-  }
+  input.type = input.type === 'password' ? 'text' : 'password';
+  btn.textContent = input.type === 'password' ? '👁' : '🙈';
 }
-
 async function resetPassword() {
   const email = document.getElementById('loginEmail').value;
-  if (!email) {
-    showAuthError('Please enter your email address first, then click Forgot password.');
-    return;
-  }
-  const { error } = await sb.auth.resetPasswordForEmail(email, {
-    redirectTo: 'https://trybrandflow.co/app.html'
-  });
+  if (!email) return showAuthError('Please enter your email address first, then click Forgot password.');
+  const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: 'https://trybrandflow.co/app.html' });
   if (error) showAuthError(error.message);
   else showAuthSuccess('Password reset email sent! Check your inbox.');
 }
-
-async function signOut() {
-  await sb.auth.signOut();
-}
+async function signOut() { await sb.auth.signOut(); }
 
 // ── ONBOARDING ──
-let currentObStep = 1;
+const TOTAL_STEPS = 8;
 
 function obNext(step) {
-  if (step === 1 && !document.getElementById('obBizName').value.trim()) return alert('Please enter your business name.');
-  if (step === 2 && !document.getElementById('obBizDesc').value.trim()) return alert('Please describe your business.');
-  if (step === 3 && !document.getElementById('obAudience').value.trim()) return alert('Please describe your customers.');
-  if (step === 4 && !selectedTone) return alert('Please select a brand tone.');
+  if (step===1 && !document.getElementById('obBizName').value.trim()) return alert('Please enter your business name.');
+  if (step===1 && !document.getElementById('obIndustry').value.trim()) return alert('Please enter your industry.');
+  if (step===2 && !document.getElementById('obBizDesc').value.trim()) return alert('Please describe your business.');
+  if (step===2 && !document.getElementById('obLocation').value.trim()) return alert('Please enter your location.');
+  if (step===7 && selectedTones.length===0) return alert('Please select at least one brand tone.');
+  if (step===8) { finishOnboarding(); return; }
   goToObStep(step + 1);
 }
 function obBack(step) { goToObStep(step - 1); }
+function obSkip(step) {
+  if (step === 8) { finishOnboarding(); return; }
+  goToObStep(step + 1);
+}
 
 function goToObStep(step) {
   document.querySelectorAll('.ob-step').forEach(s => s.classList.remove('active'));
   document.getElementById('obStep' + step).classList.add('active');
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= TOTAL_STEPS; i++) {
     const dot = document.getElementById('dot' + i);
     dot.classList.toggle('active', i === step);
     dot.classList.toggle('done', i < step);
   }
-  currentObStep = step;
+  document.querySelector('.onboarding-box').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-function selectTone(btn, tone) {
-  document.querySelectorAll('.tone-btn').forEach(b => b.classList.remove('selected'));
+function selectSingle(btn, fieldId, value) {
+  btn.closest('.tone-grid').querySelectorAll('.tone-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
-  selectedTone = tone;
+  document.getElementById(fieldId).value = value;
 }
-
+function toggleTone(btn, tone) {
+  btn.classList.toggle('selected');
+  if (selectedTones.includes(tone)) selectedTones = selectedTones.filter(t => t !== tone);
+  else selectedTones.push(tone);
+}
+function toggleGoal(btn, goal) {
+  btn.classList.toggle('selected');
+  if (selectedGoals.includes(goal)) selectedGoals = selectedGoals.filter(g => g !== goal);
+  else selectedGoals.push(goal);
+}
 function togglePlatform(btn, platform) {
   btn.classList.toggle('selected');
-  if (selectedPlatforms.includes(platform)) {
-    selectedPlatforms = selectedPlatforms.filter(p => p !== platform);
-  } else {
-    selectedPlatforms.push(platform);
-  }
+  if (selectedPlatforms.includes(platform)) selectedPlatforms = selectedPlatforms.filter(p => p !== platform);
+  else selectedPlatforms.push(platform);
 }
 
 async function finishOnboarding() {
-  if (selectedPlatforms.length === 0) return alert('Please select at least one platform.');
+  if (selectedPlatforms.length === 0 && document.getElementById('obStep8').classList.contains('active')) {
+    return alert('Please select at least one platform.');
+  }
+  // If skipping step 8, default to Instagram
+  const platforms = selectedPlatforms.length > 0 ? selectedPlatforms : ['Instagram'];
+
   document.querySelectorAll('.ob-step').forEach(s => s.classList.remove('active'));
   document.getElementById('dnaLoading').style.display = 'block';
 
   brandProfile = {
     bizName: document.getElementById('obBizName').value.trim(),
+    industry: document.getElementById('obIndustry').value.trim(),
     bizDesc: document.getElementById('obBizDesc').value.trim(),
-    audience: document.getElementById('obAudience').value.trim(),
     location: document.getElementById('obLocation').value.trim(),
-    tone: selectedTone,
-    platforms: selectedPlatforms,
+    audience: document.getElementById('obAudience').value.trim(),
+    problem: document.getElementById('obProblem').value.trim(),
+    competitors: document.getElementById('obCompetitors').value.trim(),
+    diff: document.getElementById('obDiff').value.trim(),
+    pricingStyle: document.getElementById('obPricingStyle').value,
+    promos: document.getElementById('obPromos').value.trim(),
+    goals: selectedGoals,
+    tones: selectedTones,
+    voiceAvoid: document.getElementById('obVoiceAvoid').value.trim(),
+    dos: document.getElementById('obDos').value.trim(),
+    donts: document.getElementById('obDonts').value.trim(),
+    platforms: platforms,
   };
 
   localStorage.setItem('brandProfile_' + currentUser.id, JSON.stringify(brandProfile));
-
   await new Promise(r => setTimeout(r, 2500));
   showApp();
 }
@@ -836,16 +795,14 @@ function initApp() {
   const hour = new Date().getHours();
   const greet = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
   document.getElementById('greeting').textContent = greet + '! 👋';
-
   if (brandProfile) {
     document.getElementById('bizName').textContent = brandProfile.bizName;
-    document.getElementById('bizAvatar').textContent = brandProfile.bizName[0] || '🏢';
+    document.getElementById('bizAvatar').textContent = (brandProfile.bizName || 'B')[0].toUpperCase();
     document.getElementById('settingsEmail').textContent = currentUser.email;
-    activePlatforms = brandProfile.platforms;
+    activePlatforms = brandProfile.platforms || [];
     renderPlatformPills();
     renderBrandDna();
   }
-
   const saved = localStorage.getItem('saved_' + currentUser.id);
   if (saved) savedItems = JSON.parse(saved);
 }
@@ -857,90 +814,185 @@ function renderPlatformPills() {
     const pill = document.createElement('button');
     pill.className = 'platform-pill' + (i === 0 ? ' active' : '');
     pill.textContent = platformEmoji(p) + ' ' + p;
-    pill.onclick = () => { pill.classList.toggle('active'); };
+    pill.onclick = () => pill.classList.toggle('active');
     container.appendChild(pill);
   });
 }
 
 function platformEmoji(p) {
-  const map = { Facebook: '📘', Instagram: '📸', Email: '📧', LinkedIn: '💼', Twitter: '🐦', TikTok: '🎵' };
+  const map = { Facebook:'📘', Instagram:'📸', Email:'📧', LinkedIn:'💼', Twitter:'🐦', TikTok:'🎵' };
   return map[p] || '📱';
 }
 
+// ── BRAND DNA DISPLAY ──
 function renderBrandDna() {
   if (!brandProfile) return;
   const el = document.getElementById('brandDnaDisplay');
+  const tones = (brandProfile.tones || [brandProfile.tone]).filter(Boolean);
+  const goals = (brandProfile.goals || []).filter(Boolean);
   el.innerHTML = `
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-      <div style="background:var(--cream);padding:16px;border-radius:12px;">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px;">Business</div>
-        <div style="font-size:14px;font-weight:600;color:var(--navy);">${brandProfile.bizName}</div>
-        <div style="font-size:13px;color:var(--muted);margin-top:4px;">${brandProfile.location || ''}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <div class="dna-section">
+        <div class="dna-section-label">Business</div>
+        <div class="dna-section-value" style="font-weight:600;color:var(--navy);">${brandProfile.bizName}</div>
+        ${brandProfile.industry ? `<div class="dna-section-value" style="color:var(--muted);font-size:13px;">${brandProfile.industry}</div>` : ''}
+        ${brandProfile.location ? `<div class="dna-section-value" style="color:var(--muted);font-size:13px;">📍 ${brandProfile.location}</div>` : ''}
       </div>
-      <div style="background:var(--cream);padding:16px;border-radius:12px;">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px;">Brand voice</div>
-        <div style="font-size:14px;font-weight:600;color:var(--navy);">${brandProfile.tone}</div>
+      <div class="dna-section">
+        <div class="dna-section-label">Brand voice</div>
+        <div>${tones.length ? tones.map(t => `<span class="tone-tag">${t}</span>`).join('') : '<span style="color:var(--muted);font-size:13px;">Not set</span>'}</div>
       </div>
-      <div style="background:var(--cream);padding:16px;border-radius:12px;grid-column:1/-1;">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px;">What you do</div>
-        <div style="font-size:13px;color:var(--text);line-height:1.6;">${brandProfile.bizDesc}</div>
+      <div class="dna-section" style="grid-column:1/-1;">
+        <div class="dna-section-label">What you offer</div>
+        <div class="dna-section-value">${brandProfile.bizDesc || '—'}</div>
       </div>
-      <div style="background:var(--cream);padding:16px;border-radius:12px;grid-column:1/-1;">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);margin-bottom:6px;">Platforms</div>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">${brandProfile.platforms.map(p => `<span style="background:white;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600;color:var(--navy);">${platformEmoji(p)} ${p}</span>`).join('')}</div>
+      ${brandProfile.audience ? `<div class="dna-section"><div class="dna-section-label">Target audience</div><div class="dna-section-value">${brandProfile.audience}</div></div>` : ''}
+      ${brandProfile.problem ? `<div class="dna-section"><div class="dna-section-label">Problem you solve</div><div class="dna-section-value">${brandProfile.problem}</div></div>` : ''}
+      ${brandProfile.diff ? `<div class="dna-section" style="grid-column:1/-1;"><div class="dna-section-label">Your difference</div><div class="dna-section-value">${brandProfile.diff}</div></div>` : ''}
+      ${brandProfile.pricingStyle ? `<div class="dna-section"><div class="dna-section-label">Pricing style</div><div class="dna-section-value">${brandProfile.pricingStyle}</div></div>` : ''}
+      ${brandProfile.promos ? `<div class="dna-section"><div class="dna-section-label">Promotions & offers</div><div class="dna-section-value">${brandProfile.promos}</div></div>` : ''}
+      ${goals.length ? `<div class="dna-section" style="grid-column:1/-1;"><div class="dna-section-label">Content goals</div><div>${goals.map(g => `<span class="goal-tag">${g}</span>`).join('')}</div></div>` : ''}
+      ${brandProfile.dos ? `<div class="dna-section"><div class="dna-section-label">Do's ✅</div><div class="dna-section-value">${brandProfile.dos}</div></div>` : ''}
+      ${brandProfile.donts ? `<div class="dna-section"><div class="dna-section-label">Don'ts ❌</div><div class="dna-section-value">${brandProfile.donts}</div></div>` : ''}
+      <div class="dna-section" style="grid-column:1/-1;">
+        <div class="dna-section-label">Platforms</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">${(brandProfile.platforms||[]).map(p => `<span style="background:white;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:600;color:var(--navy);">${platformEmoji(p)} ${p}</span>`).join('')}</div>
       </div>
     </div>
   `;
+}
+
+// ── BRAND DNA EDIT ──
+function startDnaEdit() {
+  document.getElementById('brandDnaDisplay').style.display = 'none';
+  document.getElementById('dnaEditBtns').innerHTML = `
+    <button class="btn-dna-edit" onclick="saveDnaEdit()">Save changes</button>
+    <button class="btn-dna-cancel" onclick="cancelDnaEdit()">Cancel</button>
+  `;
+  const tones = (brandProfile.tones || [brandProfile.tone]).filter(Boolean);
+  const allTones = ['friendly & warm','professional & trustworthy','fun & playful','bold & confident','premium & sophisticated','casual & conversational','inspirational & motivating','educational & informative','witty & humorous'];
+  const allPlatforms = ['Facebook','Instagram','Email','LinkedIn','Twitter','TikTok'];
+  const allGoals = ['Drive sales & bookings','Build brand awareness','Grow engagement','Build community & loyalty','Promote offers & events','Establish expertise & trust'];
+  const currentGoals = brandProfile.goals || [];
+
+  document.getElementById('brandDnaEdit').style.display = 'block';
+  document.getElementById('brandDnaEdit').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:14px;">
+      <div><label class="dna-section-label" style="display:block;margin-bottom:4px;">Business name</label><input class="dna-edit-input" id="editBizName" value="${escHtml(brandProfile.bizName||'')}"></div>
+      <div><label class="dna-section-label" style="display:block;margin-bottom:4px;">Industry</label><input class="dna-edit-input" id="editIndustry" value="${escHtml(brandProfile.industry||'')}"></div>
+      <div><label class="dna-section-label" style="display:block;margin-bottom:4px;">Location</label><input class="dna-edit-input" id="editLocation" value="${escHtml(brandProfile.location||'')}"></div>
+      <div><label class="dna-section-label" style="display:block;margin-bottom:4px;">What you offer</label><textarea class="dna-edit-textarea" id="editBizDesc">${escHtml(brandProfile.bizDesc||'')}</textarea></div>
+      <div><label class="dna-section-label" style="display:block;margin-bottom:4px;">Target audience</label><textarea class="dna-edit-textarea" id="editAudience">${escHtml(brandProfile.audience||'')}</textarea></div>
+      <div><label class="dna-section-label" style="display:block;margin-bottom:4px;">Problem you solve</label><textarea class="dna-edit-textarea" id="editProblem">${escHtml(brandProfile.problem||'')}</textarea></div>
+      <div><label class="dna-section-label" style="display:block;margin-bottom:4px;">Your difference</label><textarea class="dna-edit-textarea" id="editDiff">${escHtml(brandProfile.diff||'')}</textarea></div>
+      <div><label class="dna-section-label" style="display:block;margin-bottom:4px;">Promotions & offers</label><textarea class="dna-edit-textarea" id="editPromos">${escHtml(brandProfile.promos||'')}</textarea></div>
+      <div><label class="dna-section-label" style="display:block;margin-bottom:8px;">Brand voice</label><div class="tone-grid">${allTones.map(t=>`<button class="tone-btn edit-tone-btn${tones.includes(t)?' selected':''}" onclick="this.classList.toggle('selected')" data-tone="${t}">${t}</button>`).join('')}</div></div>
+      <div><label class="dna-section-label" style="display:block;margin-bottom:4px;">Do's</label><textarea class="dna-edit-textarea" id="editDos">${escHtml(brandProfile.dos||'')}</textarea></div>
+      <div><label class="dna-section-label" style="display:block;margin-bottom:4px;">Don'ts</label><textarea class="dna-edit-textarea" id="editDonts">${escHtml(brandProfile.donts||'')}</textarea></div>
+      <div><label class="dna-section-label" style="display:block;margin-bottom:8px;">Content goals</label><div class="goal-grid">${allGoals.map(g=>`<button class="goal-btn edit-goal-btn${currentGoals.includes(g)?' selected':''}" onclick="this.classList.toggle('selected')" data-goal="${g}"><span class="g-label">${g}</span></button>`).join('')}</div></div>
+      <div><label class="dna-section-label" style="display:block;margin-bottom:8px;">Platforms</label><div class="platform-grid">${allPlatforms.map(p=>`<button class="platform-btn edit-platform-btn${(brandProfile.platforms||[]).includes(p)?' selected':''}" onclick="this.classList.toggle('selected')" data-platform="${p}">${platformEmoji(p)} ${p}</button>`).join('')}</div></div>
+    </div>
+  `;
+}
+
+function escHtml(str) { return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function saveDnaEdit() {
+  const newTones = [...document.querySelectorAll('.edit-tone-btn.selected')].map(b => b.dataset.tone);
+  const newPlatforms = [...document.querySelectorAll('.edit-platform-btn.selected')].map(b => b.dataset.platform);
+  const newGoals = [...document.querySelectorAll('.edit-goal-btn.selected')].map(b => b.dataset.goal);
+  if (newTones.length === 0) return showToast('Please select at least one brand tone');
+  if (newPlatforms.length === 0) return showToast('Please select at least one platform');
+  brandProfile = {
+    ...brandProfile,
+    bizName: document.getElementById('editBizName').value.trim(),
+    industry: document.getElementById('editIndustry').value.trim(),
+    location: document.getElementById('editLocation').value.trim(),
+    bizDesc: document.getElementById('editBizDesc').value.trim(),
+    audience: document.getElementById('editAudience').value.trim(),
+    problem: document.getElementById('editProblem').value.trim(),
+    diff: document.getElementById('editDiff').value.trim(),
+    promos: document.getElementById('editPromos').value.trim(),
+    dos: document.getElementById('editDos').value.trim(),
+    donts: document.getElementById('editDonts').value.trim(),
+    tones: newTones,
+    goals: newGoals,
+    platforms: newPlatforms,
+  };
+  localStorage.setItem('brandProfile_' + currentUser.id, JSON.stringify(brandProfile));
+  cancelDnaEdit();
+  renderBrandDna();
+  document.getElementById('bizName').textContent = brandProfile.bizName;
+  document.getElementById('bizAvatar').textContent = (brandProfile.bizName||'B')[0].toUpperCase();
+  activePlatforms = brandProfile.platforms;
+  renderPlatformPills();
+  showToast('Brand DNA updated! ✓');
+}
+
+function cancelDnaEdit() {
+  document.getElementById('brandDnaDisplay').style.display = 'block';
+  document.getElementById('brandDnaEdit').style.display = 'none';
+  document.getElementById('dnaEditBtns').innerHTML = `<button class="btn-dna-edit" onclick="startDnaEdit()">Edit Brand DNA</button>`;
 }
 
 // ── CONTENT GENERATION ──
 async function generateContent() {
   const topic = document.getElementById('topicInput').value.trim();
   if (!topic) return showToast('Please enter a topic first');
+  if (!brandProfile) return showToast('Please complete your Brand DNA first');
 
-  const activePills = [...document.querySelectorAll('.platform-pill.active')].map(p => p.textContent.trim().replace(/^.+?\s/, ''));
+  const activePills = [...document.querySelectorAll('.platform-pill.active')].map(p => p.textContent.trim().replace(/^.\s/, ''));
   const platforms = activePills.length > 0 ? activePills : [brandProfile.platforms[0]];
 
   const btn = document.getElementById('generateBtn');
-  btn.disabled = true;
-  btn.textContent = 'Generating...';
+  btn.disabled = true; btn.textContent = 'Generating...';
 
-  // Show skeletons
   const feed = document.getElementById('contentFeed');
-  feed.innerHTML = platforms.flatMap(() => ['', '']).map(() => `
+  feed.innerHTML = platforms.flatMap(() => ['','']).map(() => `
     <div class="skeleton-card">
       <div class="skeleton-line short"></div>
       <div class="skeleton-line"></div>
       <div class="skeleton-line medium"></div>
       <div class="skeleton-line"></div>
       <div class="skeleton-line short"></div>
-    </div>
-  `).join('');
+    </div>`).join('');
   feed.style.display = 'grid';
   feed.style.gridTemplateColumns = 'repeat(2,1fr)';
   feed.style.gap = '20px';
 
+  const tones = (brandProfile.tones || [brandProfile.tone]).filter(Boolean).join(', ');
+  const goals = (brandProfile.goals || []).filter(Boolean).join(', ');
+
   try {
-    const prompt = `You are a marketing content writer for a local business. Generate social media content based on this brand profile:
+    const prompt = `You are an expert marketing content writer specialising in local businesses. Generate highly specific, on-brand social media content using this detailed brand profile:
 
-Business: ${brandProfile.bizName}
-Description: ${brandProfile.bizDesc}
-Target audience: ${brandProfile.audience}
-Location: ${brandProfile.location}
-Brand voice: ${brandProfile.tone}
-Topic to write about: ${topic}
+BUSINESS: ${brandProfile.bizName}
+INDUSTRY: ${brandProfile.industry || 'local business'}
+LOCATION: ${brandProfile.location || 'local area'}
+WHAT THEY OFFER: ${brandProfile.bizDesc}
+TARGET AUDIENCE: ${brandProfile.audience || 'local customers'}
+CUSTOMER PROBLEM SOLVED: ${brandProfile.problem || ''}
+POINT OF DIFFERENCE: ${brandProfile.diff || ''}
+PRICING STYLE: ${brandProfile.pricingStyle || 'mid-range'}
+PROMOTIONS/OFFERS: ${brandProfile.promos || 'none specified'}
+CONTENT GOALS: ${goals || 'drive engagement and awareness'}
+BRAND VOICE/TONE: ${tones}
+AVOID SOUNDING: ${brandProfile.voiceAvoid || 'nothing specified'}
+BRAND DOS: ${brandProfile.dos || 'none specified'}
+BRAND DONTS: ${brandProfile.donts || 'none specified'}
 
-Generate content for these platforms: ${platforms.join(', ')}
+TOPIC: ${topic}
+PLATFORMS: ${platforms.join(', ')}
 
-For EACH platform, create 2 variations. Return ONLY a valid JSON array. Each object must have:
+For EACH platform create 2 distinct variations. Return ONLY a valid JSON array, no other text. Each object must have:
 - platform (string)
 - variation (number, 1 or 2)
-- content (the post copy)
-- hashtags (array of strings, 3-8 tags)
-- cta (call to action string)
+- content (post copy written specifically for that platform's style and audience)
+- hashtags (array of 4-8 relevant strings, no # symbol)
+- cta (specific call to action)
 - charCount (number)
 
-Make the content sound natural, local, and on-brand. Include emojis where appropriate. Keep within platform character limits (Twitter: 280, others: flexible).`;
+Variation 1 = more direct/promotional. Variation 2 = storytelling/community focused. Respect all brand dos and donts strictly. Make content feel authentic, local and genuinely compelling.`;
 
     const response = await fetch('/api/generate', {
       method: 'POST',
@@ -949,54 +1001,50 @@ Make the content sound natural, local, and on-brand. Include emojis where approp
     });
 
     const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'API error');
     const text = data.content.map(c => c.text || '').join('');
     const clean = text.replace(/```json|```/g, '').trim();
     const cards = JSON.parse(clean);
     generatedCards = cards;
     renderCards(cards, feed);
-  } catch (e) {
-    feed.innerHTML = '<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">Something went wrong</div><div class="empty-sub">Please try again</div></div>';
+  } catch(e) {
+    feed.innerHTML = `<div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">Something went wrong</div><div class="empty-sub">${e.message}</div></div>`;
     feed.style.display = 'block';
   }
-
-  btn.disabled = false;
-  btn.textContent = 'Generate ✨';
+  btn.disabled = false; btn.textContent = 'Generate ✨';
 }
 
 function renderCards(cards, container) {
   if (!cards || cards.length === 0) {
     container.innerHTML = '<div class="empty-state"><div class="empty-icon">🤔</div><div class="empty-title">No content generated</div><div class="empty-sub">Try a different topic</div></div>';
-    container.style.display = 'block';
-    return;
+    container.style.display = 'block'; return;
   }
   container.style.display = 'grid';
   container.style.gridTemplateColumns = 'repeat(2,1fr)';
   container.style.gap = '20px';
   container.innerHTML = cards.map((card, i) => {
-    const platform = card.platform.toLowerCase();
-    const charWarning = (platform === 'twitter' && card.charCount > 260) || card.charCount > 2000;
-    return `
-      <div class="content-card">
-        <div class="card-platform">
-          <span class="card-platform-badge ${platform}">${platformEmoji(card.platform)} ${card.platform}</span>
-          <span class="card-variation">Variation ${card.variation}</span>
-        </div>
-        <div class="card-text">${card.content}</div>
-        <div class="card-tags">${(card.hashtags||[]).map(h => `<span class="card-tag">${h.startsWith('#') ? h : '#'+h}</span>`).join('')}</div>
-        <div class="card-cta">👉 ${card.cta}</div>
-        <div class="card-char ${charWarning ? 'warning' : ''}">${card.charCount} characters ${charWarning ? '⚠️ near limit' : ''}</div>
-        <div class="card-actions">
-          <button class="btn-card btn-card-copy" onclick="copyCard(${i})">Copy</button>
-          <button class="btn-card btn-card-save" id="saveBtn${i}" onclick="saveCard(${i})">Save</button>
-        </div>
+    const platform = (card.platform || '').toLowerCase();
+    const charWarning = (platform==='twitter' && card.charCount>260) || card.charCount>2000;
+    return `<div class="content-card">
+      <div class="card-platform">
+        <span class="card-platform-badge ${platform}">${platformEmoji(card.platform)} ${card.platform}</span>
+        <span class="card-variation">Variation ${card.variation}</span>
       </div>
-    `;
+      <div class="card-text">${card.content}</div>
+      <div class="card-tags">${(card.hashtags||[]).map(h=>`<span class="card-tag">#${h.replace(/^#/,'')}</span>`).join('')}</div>
+      <div class="card-cta">👉 ${card.cta}</div>
+      <div class="card-char ${charWarning?'warning':''}">${card.charCount} characters ${charWarning?'⚠️ near limit':''}</div>
+      <div class="card-actions">
+        <button class="btn-card btn-card-copy" onclick="copyCard(${i})">Copy</button>
+        <button class="btn-card btn-card-save" id="saveBtn${i}" onclick="saveCard(${i})">Save</button>
+      </div>
+    </div>`;
   }).join('');
 }
 
 function copyCard(i) {
   const card = generatedCards[i];
-  const text = card.content + '\n\n' + (card.hashtags||[]).join(' ');
+  const text = card.content + '\n\n' + (card.hashtags||[]).map(h=>'#'+h.replace(/^#/,'')).join(' ');
   navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard! ✓'));
 }
 
@@ -1005,8 +1053,7 @@ function saveCard(i) {
   savedItems.push({ ...card, savedAt: new Date().toISOString() });
   localStorage.setItem('saved_' + currentUser.id, JSON.stringify(savedItems));
   const btn = document.getElementById('saveBtn' + i);
-  btn.textContent = 'Saved ✓';
-  btn.className = 'btn-card btn-card-saved';
+  btn.textContent = 'Saved ✓'; btn.className = 'btn-card btn-card-saved';
   showToast('Content saved! 💾');
   renderSaved();
 }
@@ -1017,42 +1064,38 @@ function renderSaved() {
     feed.innerHTML = '<div class="empty-state"><div class="empty-icon">💾</div><div class="empty-title">Nothing saved yet</div><div class="empty-sub">Generate some content and save the pieces you love</div></div>';
     return;
   }
-  feed.style.display = 'grid';
-  feed.style.gridTemplateColumns = 'repeat(2,1fr)';
-  feed.style.gap = '20px';
-  feed.innerHTML = savedItems.slice().reverse().map((card, i) => {
+  feed.style.display = 'grid'; feed.style.gridTemplateColumns = 'repeat(2,1fr)'; feed.style.gap = '20px';
+  feed.innerHTML = savedItems.slice().reverse().map((card) => {
     const platform = (card.platform||'').toLowerCase();
-    return `
-      <div class="content-card">
-        <div class="card-platform">
-          <span class="card-platform-badge ${platform}">${platformEmoji(card.platform)} ${card.platform}</span>
-          <span class="card-variation" style="font-size:11px;color:var(--muted);">${new Date(card.savedAt).toLocaleDateString()}</span>
-        </div>
-        <div class="card-text">${card.content}</div>
-        <div class="card-tags">${(card.hashtags||[]).map(h => `<span class="card-tag">${h.startsWith('#') ? h : '#'+h}</span>`).join('')}</div>
-        <div class="card-cta">👉 ${card.cta}</div>
-        <div class="card-actions">
-          <button class="btn-card btn-card-copy" onclick="navigator.clipboard.writeText('${card.content.replace(/'/g,"\\'")}');showToast('Copied! ✓')">Copy</button>
-        </div>
+    const safeContent = (card.content||'').replace(/'/g,"\\'");
+    const safeHashtags = (card.hashtags||[]).map(h=>'#'+h.replace(/^#/,'')).join(' ').replace(/'/g,"\\'");
+    return `<div class="content-card">
+      <div class="card-platform">
+        <span class="card-platform-badge ${platform}">${platformEmoji(card.platform)} ${card.platform}</span>
+        <span class="card-variation" style="font-size:11px;color:var(--muted);">${new Date(card.savedAt).toLocaleDateString()}</span>
       </div>
-    `;
+      <div class="card-text">${card.content}</div>
+      <div class="card-tags">${(card.hashtags||[]).map(h=>`<span class="card-tag">#${h.replace(/^#/,'')}</span>`).join('')}</div>
+      <div class="card-cta">👉 ${card.cta}</div>
+      <div class="card-actions">
+        <button class="btn-card btn-card-copy" onclick="navigator.clipboard.writeText('${safeContent}\n\n${safeHashtags}').then(()=>showToast('Copied! ✓'))">Copy</button>
+      </div>
+    </div>`;
   }).join('');
 }
 
-// ── TAB SWITCHING ──
-function switchTab(tab) {
+function switchTab(tab, event) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(tab + 'Tab').classList.add('active');
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  event.currentTarget.classList.add('active');
+  if (event) event.currentTarget.classList.add('active');
   if (tab === 'saved') renderSaved();
+  if (tab === 'brand') renderBrandDna();
 }
 
-// ── TOAST ──
 function showToast(msg) {
   const toast = document.getElementById('toast');
-  toast.textContent = msg;
-  toast.classList.add('show');
+  toast.textContent = msg; toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 2500);
 }
 </script>
