@@ -745,7 +745,29 @@ async function signUp() {
   if (error) showAuthError(error.message);
   else showAuthSuccess('Account created! Check your email to confirm your address, then come back and sign in to choose your plan.');
 }
+function togglePassword(fieldId, btn) {
+  const input = document.getElementById(fieldId);
+  if (input.type === 'password') {
+    input.type = 'text';
+    btn.textContent = '🙈';
+  } else {
+    input.type = 'password';
+    btn.textContent = '👁';
+  }
+}
 
+async function resetPassword() {
+  const email = document.getElementById('loginEmail').value;
+  if (!email) {
+    showAuthError('Please enter your email address first, then click Forgot password.');
+    return;
+  }
+  const { error } = await sb.auth.resetPasswordForEmail(email, {
+    redirectTo: 'https://trybrandflow.co/app.html'
+  });
+  if (error) showAuthError(error.message);
+  else showAuthSuccess('Password reset email sent! Check your inbox.');
+}
 
 async function signOut() {
   await sb.auth.signOut();
